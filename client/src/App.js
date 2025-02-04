@@ -6,7 +6,6 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Welcome to SoLogue</h1>
         <ChatInterface />
       </header>
     </div>
