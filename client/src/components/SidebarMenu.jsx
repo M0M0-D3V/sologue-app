@@ -14,6 +14,9 @@ const SidebarMenu = () => {
         ☰
       </button>
       <div className={`sidebar-menu ${isOpen ? "open" : "closed"}`}>
+        <button onClick={toggleMenu} className="menu-button">
+          ☰
+        </button>
         <ul>
           <li>Home</li>
           <li>Profile</li>
