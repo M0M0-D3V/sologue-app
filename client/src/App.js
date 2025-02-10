@@ -13,7 +13,6 @@ const App = () => {
       <div className="chat-interface App">
         <header className="chat-header">
           <SidebarMenu />
-          <button classSName="profile-button">👤</button>
         </header>
         <Routes>
           <Route exact path="/" element={<Home />} />
