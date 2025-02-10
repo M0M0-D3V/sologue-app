@@ -36,22 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-nav li {
-  display: inline;
-  margin: 0 10px;
-}
-
-nav a {
-  text-decoration: none;
-  color: #3f51b5;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}

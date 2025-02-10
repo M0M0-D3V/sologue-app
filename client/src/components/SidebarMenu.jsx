@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./SidebarMenu.css";
 
 const SidebarMenu = () => {
@@ -18,8 +19,15 @@ const SidebarMenu = () => {
           ☰
         </button>
         <ul>
-          <li>Home</li>
-          <li>Profile</li>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/chat">Chat</Link>
+          </li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
         </ul>
       </div>
     </div>
