@@ -10,7 +10,7 @@ import SidebarMenu from "./components/SidebarMenu";
 const App = () => {
   return (
     <Router>
-      <div className="chat-interface">
+      <div className="chat-interface App">
         <header className="chat-header">
           <SidebarMenu />
           <button classSName="profile-button">👤</button>
