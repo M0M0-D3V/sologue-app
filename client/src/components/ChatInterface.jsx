@@ -1,7 +1,6 @@
 //  src/components/ChatInterface.jsx
 import React, { useState } from "react";
 import "./ChatInterface.css";
-import SidebarMenu from "./SidebarMenu";
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
@@ -17,10 +16,6 @@ const ChatInterface = () => {
 
   return (
     <div className="chat-interface">
-      <header className="chat-header">
-        <SidebarMenu />
-        <button classSName="profile-button">👤</button>
-      </header>
       <main className="text-response">
         {messages.map((message, index) => (
           <div key={index} className="message">

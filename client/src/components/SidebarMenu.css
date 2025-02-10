@@ -45,3 +45,12 @@
 .sidebar-menu li:hover {
   background-color: #444;
 }
+
+.sidebar-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.sidebar-menu a:visited {
+  color: white;
+}
