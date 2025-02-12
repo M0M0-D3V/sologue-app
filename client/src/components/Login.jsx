@@ -1,17 +1,21 @@
 // src/components/Login.js
-import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("User logged in successfully!");
+      navigate("/");
     } catch (error) {
       alert(error.message);
     }
@@ -33,6 +37,8 @@ const Login = () => {
         placeholder="Password"
       />
       <button type="submit">Login</button>
+      <br />
+      <Link to="/signup">Don't have an account? Sign up</Link>
     </form>
   );
 };

@@ -1,7 +1,8 @@
 // src/components/Signup.js
-import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -33,6 +34,8 @@ const Signup = () => {
         placeholder="Password"
       />
       <button type="submit">Sign Up</button>
+      <br />
+      <Link to="/login">Already have an account? Login</Link>
     </form>
   );
 };
