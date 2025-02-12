@@ -1,6 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import React from "react";
-import { useNavigate } from "react-router";
+import React, { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import ChatInterface from "./components/ChatInterface";
@@ -14,22 +13,20 @@ import Signup from "./components/Signup";
 import { auth } from "./firebaseConfig";
 
 const App = () => {
-  let navigate = useNavigate();
+  const [user, setUser] = useState(false);
   onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      // User is signed out
-      navigate("/login");
-    } else {
+    if (user) {
       // User is signed in, see docs for a list of available properties
+      setUser(true);
+    } else {
+      // User is signed out
     }
   });
 
   return (
     <Router>
       <div className="chat-interface App">
-        <header className="chat-header">
-          <SidebarMenu />
-        </header>
+        <header className="chat-header">{user ? <SidebarMenu /> : null}</header>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
