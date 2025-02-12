@@ -2,7 +2,7 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { auth } from "../firebaseConfig";
 
-signOut(auth)
+export default signOut(auth)
   .then(() => {
     // Sign-out successful - navigate to /
     let navigate = useNavigate();
