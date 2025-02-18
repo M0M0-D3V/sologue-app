@@ -6,13 +6,13 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCG4xty_4mkjh11Yzx-Q3sxbtSQ1Do0pDE",
-  authDomain: "sologue-app.firebaseapp.com",
-  projectId: "sologue-app",
-  storageBucket: "sologue-app.firebasestorage.app",
-  messagingSenderId: "46491937232",
-  appId: "1:46491937232:web:50e6361ae0287f66d1f1d5",
-  measurementId: "G-LX25WX8028",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 export default firebaseConfig;
