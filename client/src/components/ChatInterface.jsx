@@ -1,5 +1,5 @@
 //  src/components/ChatInterface.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ChatInterface.css";
 
 const ChatInterface = () => {
@@ -11,21 +11,53 @@ const ChatInterface = () => {
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      setMessages([...messages, input]);
+      const newMessage = {
+        text: input,
+        sender: isName1 ? name1 : name2,
+      };
+      setMessages([...messages, newMessage]);
       setInput("");
     }
   };
+
+  const handleToggle = () => {
+    setIsName1(!isName1);
+  };
+
+  useEffect(() => {
+    // update dom for custom names
+    document.documentElement.style.setProperty("--name1", name1);
+    document.documentElement.style.setProperty("--name2", name2);
+  }, [name1, name2]);
 
   return (
     <div className="chat-interface">
       <main className="text-response">
         {messages.map((message, index) => (
           <div key={index} className="message">
-            {message}
+            <strong>{message.sender}:</strong>
+            <br />
+            {message.text}
           </div>
         ))}
       </main>
-      <div class="toggle-button">
+      <div className="name-inputs">
+        <input
+          type="text"
+          className="name-input"
+          placeholder="Enter name 1"
+          value={name1}
+          onChange={(e) => setName1(e.target.value)}
+        />
+        <input
+          type="text"
+          className="name-input"
+          placeholder="Enter name 2"
+          value={name2}
+          onChange={(e) => setName2(e.target.value)}
+        />
+      </div>
+      <div class="toggle-button" onClick={handleToggle}>
         <div class="btn btn-rect" id="button-13">
           <input type="checkbox" class="checkbox" />
           <div class="knob">
