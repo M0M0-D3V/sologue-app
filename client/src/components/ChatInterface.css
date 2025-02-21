@@ -74,16 +74,18 @@
 
 .toggle-button-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin: 10px 0;
 }
 
 .name-inputs {
   display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
-  margin-right: 20px;
+  gap: 20px;
+  /* flex-grow: 1; */
+  /* justify-content: space-between; */
+  /* margin-right: 20px; */
+  z-index: 10;
 }
 
 .name-inputs input {
@@ -95,13 +97,17 @@
 }
 
 .toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   height: 50px;
-  margin: 10px;
+  width: calc(100% - 240px);
+  /* margin: 10px; */
   background-color: #fff;
   box-shadow: 0 10px 20px -8px #c5d6d6;
   border-radius: 4px;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
 }
 
 .knob,
@@ -111,6 +117,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  transition: 0.3s ease all;
 }
 
 .btn {
@@ -143,6 +150,7 @@
 }
 
 .knob {
+  width: 50%;
   z-index: 2;
 }
 
@@ -159,7 +167,7 @@
 #button-13 .knob span {
   position: absolute;
   top: 4px;
-  width: 8%;
+  width: 100px;
   height: 10px;
   font-size: 10px;
   font-weight: bold;
@@ -187,14 +195,16 @@
 }
 
 #button-13 .knob span {
-  width: 40%;
-  left: 55%;
+  /* width: 40%; */
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #03a9f4;
   z-index: 2;
 }
 
 #button-13 .checkbox:checked+.knob span {
   left: 4%;
+  transform: translateX(0);
   background-color: #f44336;
 }
 
