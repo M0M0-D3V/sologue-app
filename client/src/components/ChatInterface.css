@@ -1,3 +1,9 @@
+:root {
+  --name1: "NAME 1";
+  --name2: "NAME 2";
+}
+
+
 .chat-interface {
   display: flex;
   flex-direction: column;
@@ -138,12 +144,12 @@
 }
 
 #button-13 .knob:before {
-  content: "NAME 1";
+  content: var(--name1);
   left: 4%;
 }
 
 #button-13 .knob:after {
-  content: "NAME 2";
+  content: var(--name2);
   right: 4%;
 }
 
