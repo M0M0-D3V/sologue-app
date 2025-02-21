@@ -24,6 +24,12 @@ const ChatInterface = () => {
     setIsName1(!isName1);
   };
 
+  const handlePressEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+
   useEffect(() => {
     // update dom for custom names
     document.documentElement.style.setProperty("--name1", name1);
@@ -41,29 +47,34 @@ const ChatInterface = () => {
           </div>
         ))}
       </main>
-      <div className="name-inputs">
-        <input
-          type="text"
-          className="name-input"
-          placeholder="Enter name 1"
-          value={name1}
-          onChange={(e) => setName1(e.target.value)}
-        />
-        <input
-          type="text"
-          className="name-input"
-          placeholder="Enter name 2"
-          value={name2}
-          onChange={(e) => setName2(e.target.value)}
-        />
-      </div>
-      <div class="toggle-button" onClick={handleToggle}>
-        <div class="btn btn-rect" id="button-13">
-          <input type="checkbox" class="checkbox" />
-          <div class="knob">
-            <span></span>
+      <div className="toggle-button-container">
+        <div className="name-inputs">
+          <input
+            type="text"
+            placeholder="Enter name 1"
+            value={name1}
+            onChange={(e) => setName1(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Enter name 2"
+            value={name2}
+            onChange={(e) => setName2(e.target.value)}
+          />
+        </div>
+        <div class="toggle-button" onClick={handleToggle}>
+          <div class="btn btn-rect" id="button-13">
+            <input
+              type="checkbox"
+              class="checkbox"
+              checked={!isName1}
+              readOnly
+            />
+            <div class="knob">
+              <span></span>
+            </div>
+            <div class="btn-bg"></div>
           </div>
-          <div class="btn-bg"></div>
         </div>
       </div>
       <footer className="chat-footer">
@@ -74,6 +85,7 @@ const ChatInterface = () => {
           placeholder="Enter text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handlePressEnter}
         />
         <button className="enter-text-button" onClick={handleSendMessage}>
           Send

@@ -19,12 +19,22 @@
   color: white;
 }
 
+.menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
 .menu-button,
 .profile-button {
   background: none;
   border: none;
   color: white;
   font-size: 1.5em;
+  width: 100%;
 }
 
 .text-response {
@@ -62,6 +72,28 @@
   font-size: 1em;
 }
 
+.toggle-button-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.name-inputs {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  margin-right: 20px;
+}
+
+.name-inputs input {
+  width: 100px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
 .toggle-button {
   position: relative;
   height: 50px;
@@ -69,6 +101,7 @@
   background-color: #fff;
   box-shadow: 0 10px 20px -8px #c5d6d6;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .knob,

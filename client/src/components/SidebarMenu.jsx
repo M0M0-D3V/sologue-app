@@ -15,23 +15,25 @@ const SidebarMenu = () => {
         ☰
       </button>
       <div className={`sidebar-menu ${isOpen ? "open" : "closed"}`}>
-        <button onClick={toggleMenu} className="menu-button">
-          ☰
-        </button>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/chat">Chat</Link>
-          </li>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/logout">Logout</Link>
-          </li>
-        </ul>
+        <div className="menu-container" onClick={toggleMenu}>
+          <button onClick={toggleMenu} className="menu-button">
+            ☰
+            <ul>
+              <Link to="/">
+                <li>Home</li>
+              </Link>
+              <Link to="/chat">
+                <li>Chat</li>
+              </Link>
+              <Link to="/profile">
+                <li>Profile</li>
+              </Link>
+              <Link to="/logout">
+                <li>Logout</li>
+              </Link>
+            </ul>
+          </button>
+        </div>
       </div>
     </div>
   );
