@@ -5,6 +5,9 @@ import "./ChatInterface.css";
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [isName1, setIsName1] = useState(true);
+  const [name1, setName1] = useState("Me");
+  const [name2, setName2] = useState("Other Me");
 
   const handleSendMessage = () => {
     if (input.trim()) {
