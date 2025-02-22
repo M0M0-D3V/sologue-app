@@ -211,3 +211,56 @@
 #button-13 .checkbox:checked~.btn-bg {
   background-color: #fcebeb;
 }
+
+/* utilities */
+.df {
+  display: flex;
+}
+
+.ac {
+  align-items: center;
+}
+.as {
+  align-self: stretch;
+}
+.asb {
+  align-self: baseline;
+}
+.asc {
+  align-self: center;
+}
+.asf {
+  align-self: flex-end;
+}
+.asi {
+  align-self: initial;
+}
+.asr {
+  align-self: right;
+}
+.asl {
+  align-self: left;
+}
+.asj {
+  align-self: justify;
+}
+
+.jc {
+  justify-content: center;
+}
+.jcsa {
+  justify-content: space-around;
+}
+.jcse {
+  justify-content: space-evenly;
+}
+.jcfs {
+  justify-content: flex-start;
+}
+.jcfe {
+  justify-content: flex-end;
+}
+.jcsa {
+  justify-content: space-around;
+}
+
