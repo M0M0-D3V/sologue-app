@@ -80,11 +80,6 @@
 }
 
 .name-inputs {
-  display: flex;
-  gap: 20px;
-  /* flex-grow: 1; */
-  /* justify-content: space-between; */
-  /* margin-right: 20px; */
   z-index: 10;
 }
 
@@ -97,13 +92,10 @@
 }
 
 .toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   height: 50px;
-  width: calc(100% - 240px);
-  /* margin: 10px; */
+  width: calc(100% - 10px);
+  margin: 10px;
   background-color: #fff;
   box-shadow: 0 10px 20px -8px #c5d6d6;
   border-radius: 4px;
@@ -123,7 +115,7 @@
 .btn {
   position: relative;
   top: 50%;
-  width: 80%;
+  width: 90%;
   height: 36px;
   margin: -20px auto 0 auto;
   overflow: hidden;
@@ -150,7 +142,7 @@
 }
 
 .knob {
-  width: 50%;
+  width: 90%;
   z-index: 2;
 }
 
@@ -178,25 +170,29 @@
   transition: 0.3s ease all;
 }
 
-#button-13 .knob:before,
+#button-13 .knob:before,  
 #button-13 .knob:after {
   color: #4e4e4e;
-  z-index: 1;
+  z-index: 3;
 }
 
 #button-13 .knob:before {
   content: var(--name1);
   left: 4%;
+  text-align: left;
+  z-index: 3;
 }
 
 #button-13 .knob:after {
   content: var(--name2);
   right: 4%;
+  text-align: right;
+  z-index: 3;
 }
 
 #button-13 .knob span {
-  /* width: 40%; */
-  left: 50%;
+  width: 50%;
+  left: 81%;
   transform: translateX(-50%);
   background-color: #03a9f4;
   z-index: 2;

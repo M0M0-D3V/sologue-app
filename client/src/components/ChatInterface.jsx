@@ -71,6 +71,7 @@ const ChatInterface = () => {
               readOnly
             />
             <div class="knob">
+              {isName1 ? name1 : name2}
               <span></span>
             </div>
             <div class="btn-bg"></div>
