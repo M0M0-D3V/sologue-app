@@ -15,6 +15,7 @@ const Home = () => {
       navigate("/login");
     }
   });
+
   return (
     <div className="chat-interface">
       <h1>Welcome to SoLogue</h1>
