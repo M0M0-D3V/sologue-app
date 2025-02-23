@@ -20,6 +20,7 @@
   background-color: #333;
   color: white;
   overflow-x: hidden;
+  opacity: 0.95;
   transition: transform 0.3s ease;
   z-index: 1000;
 }
