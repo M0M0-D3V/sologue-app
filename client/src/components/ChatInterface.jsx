@@ -40,7 +40,12 @@ const ChatInterface = () => {
     <div className="chat-interface">
       <main className="text-response">
         {messages.map((message, index) => (
-          <div key={index} className="message">
+          <div
+            key={index}
+            className={
+              message.sender === name1 ? "message name1" : "message name2"
+            }
+          >
             <strong>{message.sender}:</strong>
             <br />
             {message.text}
@@ -70,11 +75,11 @@ const ChatInterface = () => {
               checked={!isName1}
               readOnly
             />
-            <div className="knob">
-              {isName1 ? name1 : name2}
+            <div className={isName1 ? "knob df ac jcfs" : "knob df ac jcfe"}>
+              <p>{isName1 ? name1 : name2}</p>
               <span></span>
+              <div className="btn-bg"></div>
             </div>
-            <div className="btn-bg"></div>
           </div>
         </div>
       </div>

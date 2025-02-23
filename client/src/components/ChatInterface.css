@@ -1,6 +1,8 @@
 :root {
   --name1: "NAME 1";
   --name2: "NAME 2";
+  --color1: #bbdefb;
+  --color2: #c5cae9;
 }
 
 
@@ -41,6 +43,8 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  overflow-x:hidden;
+  overflow-wrap: anywhere;
   background-color: #ffffff;
 }
 
@@ -49,7 +53,25 @@
   padding: 10px;
   background-color: #e0e0e0;
   border-radius: 5px;
+  clear: both;
 }
+
+.name1 {
+  min-width: fit-content;
+  min-width: -webkit- fill-available;
+  max-width: 0;
+  background-color: var(--color1);
+  text-align: left;
+  float: left;
+}
+.name2 {
+  text-align: right;
+  float: right;
+  min-width: fit-content;
+  min-width: -webkit- fill-available;
+  max-width: 0;
+  background-color: var(--color2);
+} 
 
 .chat-footer {
   display: flex;
@@ -99,7 +121,6 @@
   background-color: #fff;
   box-shadow: 0 10px 20px -8px #c5d6d6;
   border-radius: 4px;
-  /* flex-shrink: 0; */
 }
 
 .knob,
@@ -115,7 +136,7 @@
 .btn {
   position: relative;
   top: 50%;
-  width: 90%;
+  width: 99%;
   height: 36px;
   margin: -20px auto 0 auto;
   overflow: hidden;
@@ -142,66 +163,56 @@
 }
 
 .knob {
-  width: 90%;
   z-index: 2;
 }
 
 .btn-bg {
   width: 100%;
+  left: 0;
+  right: 0;
   background-color: #ebf7fc;
   transition: 0.3s ease all;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Button 13 */
 #button-13 .knob:before,
 #button-13 .knob:after,
-#button-13 .knob span {
+#button-13 .knob span 
+{
   position: absolute;
   top: 4px;
   width: 100px;
   height: 10px;
-  font-size: 10px;
-  font-weight: bold;
-  text-align: center;
-  line-height: 1;
   padding: 9px 4px;
   border-radius: 2px;
   transition: 0.3s ease all;
 }
 
-#button-13 .knob:before,  
-#button-13 .knob:after {
-  color: #4e4e4e;
-  z-index: 3;
-}
-
-#button-13 .knob:before {
-  content: var(--name1);
-  left: 4%;
-  text-align: left;
-  z-index: 3;
-}
-
-#button-13 .knob:after {
-  content: var(--name2);
-  right: 4%;
-  text-align: right;
-  z-index: 3;
+#button-13 .knob p {
+  z-index: 2;
+  margin: 0 10%;
 }
 
 #button-13 .knob span {
-  width: 50%;
-  left: 81%;
+  width: 47%;
+  left: 75%;
   transform: translateX(-50%);
-  background-color: #03a9f4;
+  background-color: var(--color1);
   z-index: 2;
 }
 
+#button-13 .checkbox+.knob {
+  font-weight: bold;
+  font-size: 1em;
+  text-align: left;
+  line-height: 1;
+}
+
 #button-13 .checkbox:checked+.knob span {
-  left: 4%;
+  left: 1%;
   transform: translateX(0);
-  background-color: #f44336;
+  background-color: var(--color2);
 }
 
 #button-13 .checkbox:checked~.btn-bg {
