@@ -62,19 +62,19 @@ const ChatInterface = () => {
             onChange={(e) => setName2(e.target.value)}
           />
         </div>
-        <div class="toggle-button" onClick={handleToggle}>
-          <div class="btn btn-rect" id="button-13">
+        <div className="toggle-button" onClick={handleToggle}>
+          <div className="btn btn-rect" id="button-13">
             <input
               type="checkbox"
-              class="checkbox"
+              className="checkbox"
               checked={!isName1}
               readOnly
             />
-            <div class="knob">
+            <div className="knob">
               {isName1 ? name1 : name2}
               <span></span>
             </div>
-            <div class="btn-bg"></div>
+            <div className="btn-bg"></div>
           </div>
         </div>
       </div>
