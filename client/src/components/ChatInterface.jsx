@@ -1,21 +1,63 @@
 //  src/components/ChatInterface.jsx
 import React, { useEffect, useState } from "react";
+import {
+  createChatSession,
+  getMessagesFromChat,
+  saveMessageToChat,
+} from "../firebaseFunctions";
 import "./ChatInterface.css";
 
 const ChatInterface = () => {
+  const [chatId, setChatId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isName1, setIsName1] = useState(true);
   const [name1, setName1] = useState("Me");
   const [name2, setName2] = useState("Other Me");
 
-  const handleSendMessage = () => {
-    if (input.trim()) {
+  useEffect(() => {
+    const startChatSession = async () => {
+      if (!chatId) {
+        try {
+          const newChatId = await createChatSession();
+          console.log("start session");
+          setChatId(newChatId);
+        } catch (e) {
+          console.error("Error starting chat session: ", e);
+        }
+      }
+    };
+    startChatSession();
+  }, [chatId]);
+
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (chatId) {
+        try {
+          const loadMessages = await getMessagesFromChat(chatId);
+          setMessages(loadMessages);
+        } catch (e) {
+          console.error("Error loading messages: ", e);
+        }
+      }
+    };
+    loadMessages();
+  }, [chatId]);
+
+  const handleSendMessage = async () => {
+    if (input.trim() && chatId) {
       const newMessage = {
         text: input,
         sender: isName1 ? name1 : name2,
+        timestamp: new Date().toISOString(),
+        isOtherMe: !isName1,
       };
       setMessages([...messages, newMessage]);
+      try {
+        await saveMessageToChat(chatId, newMessage); // Save message to Firebase
+      } catch (e) {
+        console.error("Error saving message: ", e);
+      }
       setInput("");
     }
   };
