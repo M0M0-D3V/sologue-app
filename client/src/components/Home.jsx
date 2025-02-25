@@ -4,8 +4,9 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { auth } from "../firebaseConfig";
 import "./ChatInterface.css";
+import CreateNewChat from "./CreateNewChat";
 
-const Home = () => {
+const Home = ({ setChatId }) => {
   let navigate = useNavigate();
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -20,11 +21,11 @@ const Home = () => {
     <div className="chat-interface">
       <h1>Welcome to SoLogue</h1>
       <p>Have an insightful conversation with yourself!</p>
-      <p>Type to get started...</p>
+      <CreateNewChat setChatId={setChatId} />
       <footer className="chat-footer">
-        <button>Meow</button>
+        {/* <button>Meow</button>
         <input type="text" className="text-field" placeholder="Enter text" />
-        <button className="enter-text-button">Send</button>
+        <button className="enter-text-button">Send</button> */}
       </footer>
     </div>
   );

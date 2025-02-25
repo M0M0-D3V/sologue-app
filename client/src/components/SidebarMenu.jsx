@@ -22,8 +22,8 @@ const SidebarMenu = () => {
               <Link to="/">
                 <li>Home</li>
               </Link>
-              <Link to="/chat">
-                <li>Chat</li>
+              <Link to="/history">
+                <li>Chat History</li>
               </Link>
               <Link to="/profile">
                 <li>Profile</li>

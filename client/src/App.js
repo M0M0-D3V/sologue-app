@@ -2,6 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import ChatHistory from "./components/ChatHistory";
 import ChatInterface from "./components/ChatInterface";
 import "./components/ChatInterface.css";
 import Home from "./components/Home";
@@ -14,6 +15,8 @@ import { auth } from "./firebaseConfig";
 
 const App = () => {
   const [user, setUser] = useState(false);
+  const [chatId, setChatId] = useState(null);
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -28,10 +31,11 @@ const App = () => {
       <div className="chat-interface App">
         <header className="chat-header">{user ? <SidebarMenu /> : null}</header>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home setChatId={setChatId} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/chat" element={<ChatInterface />} />
+          <Route path="/chat/:id" element={<ChatInterface chatId={chatId} />} />
+          <Route path="/history" element={<ChatHistory />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>

@@ -1,16 +1,42 @@
 // src/firebaseFunctions.js
 import { addDoc, collection, doc, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { auth, db } from "./firebaseConfig";
 
 export const createChatSession = async () => {
   try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("User is not authenticated");
+
     const chatsCollection = collection(db, "chats");
+    const currentTimestamp = new Date().toISOString();
     const chatRef = await addDoc(chatsCollection, {
-      createdAt: new Date().toISOString(),
+      title: currentTimestamp,
+      createdAt: currentTimestamp,
+      userId: user.uid,
     });
     return chatRef.id;
   } catch (e) {
     console.error("Error creating chat session: ", e);
+    throw e;
+  }
+};
+
+export const getChatsByUser = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("User is not authenticated");
+
+    const chatsCollection = collection(db, "chats");
+    const querySnapshot = await getDocs(chatsCollection);
+    const chats = [];
+    querySnapshot.forEach((doc) => {
+      if (doc.data().userId === user.uid) {
+        chats.push({ id: doc.id, ...doc.data() });
+      }
+    });
+    return chats;
+  } catch (e) {
+    console.error("Error getting chats by user: ", e);
     throw e;
   }
 };
