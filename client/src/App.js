@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import ChatHistory from "./components/ChatHistory";
@@ -16,6 +16,19 @@ import { auth } from "./firebaseConfig";
 const App = () => {
   const [user, setUser] = useState(false);
   const [chatId, setChatId] = useState(null);
+  const [viewHeight, setViewHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewHeight(window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -28,7 +41,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="chat-interface App">
+      <div className="chat-interface App" style={{ height: viewHeight }}>
         <header className="chat-header">{user ? <SidebarMenu /> : null}</header>
         <Routes>
           <Route exact path="/" element={<Home setChatId={setChatId} />} />
