@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getChatsByUser } from "../firebaseFunctions";
 
-const ChatHistory = () => {
+const ChatHistory = ({ setChatId }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,7 +38,9 @@ const ChatHistory = () => {
         <ul>
           {chats.map((chat) => (
             <li key={chat.id}>
-              <a href={`/chat/${chat.id}`}>{chat.title}</a>
+              <Link to={`/chat/${chat.id}`} onClick={() => setChatId(chat.id)}>
+                {chat.title}
+              </Link>
             </li>
           ))}
         </ul>

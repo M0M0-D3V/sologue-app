@@ -47,7 +47,17 @@ const ChatInterface = ({ chatId }) => {
   };
 
   const handlePressEnter = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      // Insert new line character at the cursor position
+      const { selectionStart, selectionEnd } = e.target;
+      const newValue =
+        input.substring(0, selectionStart) +
+        "\n" +
+        input.substring(selectionEnd);
+      setInput(newValue);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -70,7 +80,12 @@ const ChatInterface = ({ chatId }) => {
           >
             <strong>{message.sender}:</strong>
             <br />
-            {message.text}
+            {message.text.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                <br />
+              </span>
+            ))}
           </div>
         ))}
       </main>
@@ -107,8 +122,7 @@ const ChatInterface = ({ chatId }) => {
       </div>
       <footer className="chat-footer">
         <button className="talk-button">Talk</button>
-        <input
-          type="text"
+        <textarea
           className="text-field"
           placeholder="Enter text"
           value={input}

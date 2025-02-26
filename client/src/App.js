@@ -35,7 +35,10 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/chat/:id" element={<ChatInterface chatId={chatId} />} />
-          <Route path="/history" element={<ChatHistory />} />
+          <Route
+            path="/history"
+            element={<ChatHistory setChatId={setChatId} />}
+          />
           <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
