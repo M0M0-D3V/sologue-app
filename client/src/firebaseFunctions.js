@@ -1,5 +1,12 @@
 // src/firebaseFunctions.js
-import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 
 export const createChatSession = async () => {
@@ -37,6 +44,32 @@ export const getChatsByUser = async () => {
     return chats;
   } catch (e) {
     console.error("Error getting chats by user: ", e);
+    throw e;
+  }
+};
+
+export const updateChatTitleById = async (chatId, newTitle) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+    if (!newTitle || typeof newTitle !== "string")
+      throw new Error("newTitle must be a valid string.");
+
+    const chatRef = doc(db, "chats", chatId);
+    await updateDoc(chatRef, { title: newTitle });
+  } catch (e) {
+    console.error("Error updating chat title: ", e);
+    throw e;
+  }
+};
+
+export const deleteChatById = async (chatId) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+
+    const chatRef = doc(db, "chats", chatId);
+    await deleteDoc(chatRef);
+  } catch (e) {
+    console.error("Error deleting chat: ", e);
     throw e;
   }
 };

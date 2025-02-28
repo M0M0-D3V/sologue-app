@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getChatsByUser } from "../firebaseFunctions";
+import { deleteChatById, getChatsByUser } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
 const ChatHistory = ({ setChatId }) => {
@@ -30,6 +30,21 @@ const ChatHistory = ({ setChatId }) => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const handleEdit = (chatId) => {
+    // Functionality to edit chat title
+    console.log("Edit chat with ID:", chatId);
+  };
+  const handleDelete = async (chatId) => {
+    try {
+      await deleteChatById(chatId);
+      setChats(chats.filter((chat) => chat.id !== chatId));
+    } catch (e) {
+      console.error("Error deleting chat: ", e);
+    }
+    console.log("Delete chat with ID:", chatId);
+  };
+
   return (
     <div className="chat-history">
       <h2>Chat History</h2>
@@ -38,10 +53,14 @@ const ChatHistory = ({ setChatId }) => {
       ) : (
         <ul>
           {chats.map((chat) => (
-            <li key={chat.id}>
+            <li key={chat.id} className="df jcsa">
               <Link to={`/chat/${chat.id}`} onClick={() => setChatId(chat.id)}>
                 {chat.title}
               </Link>
+              <div>
+                <button>Edit</button>
+                <button onClick={() => handleDelete(chat.id)}>Delete</button>
+              </div>
             </li>
           ))}
         </ul>
