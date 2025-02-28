@@ -319,7 +319,7 @@
 .jcfe {
   justify-content: flex-end;
 }
-.jcsa {
-  justify-content: space-around;
+.jcsb {
+  justify-content: space-between;
 }
 

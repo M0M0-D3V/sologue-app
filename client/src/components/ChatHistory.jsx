@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteChatById, getChatsByUser } from "../firebaseFunctions";
+import {
+  deleteChatById,
+  getChatsByUser,
+  updateChatTitleById,
+} from "../firebaseFunctions";
 import "./ChatInterface.css";
 
 const ChatHistory = ({ setChatId }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editChat, setEditChat] = useState(null);
+  const [chatTitle, setChatTitle] = useState("");
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -31,10 +37,38 @@ const ChatHistory = ({ setChatId }) => {
     return <div>Loading...</div>;
   }
 
-  const handleEdit = (chatId) => {
+  const handleEdit = (chat) => {
     // Functionality to edit chat title
-    console.log("Edit chat with ID:", chatId);
+    setEditChat(chat.id);
+    setChatTitle(chat.title);
+    console.log("Edit chat with ID:", chat.id);
   };
+
+  const handleUpdate = async (chatId) => {
+    try {
+      if (!chatTitle || chatTitle.trim() === "") {
+        alert("Chat title cannot be empty.");
+        return;
+      }
+      await updateChatTitleById(chatId, chatTitle);
+      setChats(
+        chats.map((chat) =>
+          chat.id === chatId ? { ...chat, title: chatTitle } : chat
+        )
+      );
+      setEditChat(null);
+    } catch (e) {
+      console.error("Error updating chat title: ", e);
+    }
+  };
+  const handleCancelEdit = () => {
+    setEditChat(null);
+    setChatTitle("");
+  };
+  const handleInputChange = (e) => {
+    setChatTitle(e.target.value);
+  };
+
   const handleDelete = async (chatId) => {
     try {
       await deleteChatById(chatId);
@@ -53,14 +87,37 @@ const ChatHistory = ({ setChatId }) => {
       ) : (
         <ul>
           {chats.map((chat) => (
-            <li key={chat.id} className="df jcsa">
-              <Link to={`/chat/${chat.id}`} onClick={() => setChatId(chat.id)}>
-                {chat.title}
-              </Link>
-              <div>
-                <button>Edit</button>
-                <button onClick={() => handleDelete(chat.id)}>Delete</button>
-              </div>
+            <li key={chat.id} className="">
+              {editChat === chat.id ? (
+                <div className="df jcsb">
+                  <input
+                    className="text-field"
+                    type="text"
+                    value={chatTitle}
+                    onChange={handleInputChange}
+                    placeholder="Edit chat title"
+                  />
+                  <div>
+                    <button onClick={() => handleUpdate(chat.id)}>Save</button>
+                    <button onClick={handleCancelEdit}>Cancel</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="df jcsb">
+                  <Link
+                    to={`/chat/${chat.id}`}
+                    onClick={() => setChatId(chat.id)}
+                  >
+                    {chat.title}
+                  </Link>
+                  <div>
+                    <button onClick={() => handleEdit(chat)}>Edit</button>
+                    <button onClick={() => handleDelete(chat.id)}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              )}
             </li>
           ))}
         </ul>

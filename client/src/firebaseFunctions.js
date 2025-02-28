@@ -106,3 +106,46 @@ export const getMessagesFromChat = async (chatId) => {
     throw e;
   }
 };
+
+export const deleteMessageById = async (chatId, messageId) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+    if (!messageId) throw new Error("messageId is required");
+
+    const chatRef = doc(db, "chats", chatId);
+    const messageRef = doc(chatRef, "messages", messageId);
+    await deleteDoc(messageRef);
+  } catch (e) {
+    console.error("Error deleting message: ", e);
+    throw e;
+  }
+};
+
+export const updateMessageById = async (chatId, messageId, newMessage) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+    if (!messageId) throw new Error("messageId is required");
+    if (!newMessage || typeof newMessage !== "object")
+      throw new Error("newMessage must be a valid object.");
+
+    const chatRef = doc(db, "chats", chatId);
+    const messageRef = doc(chatRef, "messages", messageId);
+    await updateDoc(messageRef, newMessage);
+  } catch (e) {
+    console.error("Error updating message: ", e);
+    throw e;
+  }
+};
+
+export const getUserProfile = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("User is not authenticated");
+
+    const { displayName, email, photoURL } = user;
+    return { displayName, email, photoURL };
+  } catch (e) {
+    console.error("Error getting user profile: ", e);
+    throw e;
+  }
+};
