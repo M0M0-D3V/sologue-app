@@ -1,9 +1,9 @@
 // src/components/Login.js
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import { auth } from "../firebaseConfig";
+import { auth, googleProvider } from "../firebaseConfig";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,16 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      alert("User logged in successfully!");
+      navigate("/");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
       alert("User logged in successfully!");
       navigate("/");
     } catch (error) {
@@ -37,8 +47,14 @@ const Login = () => {
         placeholder="Password"
       />
       <button type="submit">Login</button>
-      <br />
-      <Link to="/signup">Don't have an account? Sign up</Link>
+      <p>
+        <Link to="/signup">Don't have an account? Sign up</Link>
+      </p>
+      <p>
+        <button type="button" onClick={signInWithGoogle}>
+          Login with Google
+        </button>
+      </p>
     </form>
   );
 };
