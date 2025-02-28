@@ -220,6 +220,57 @@
   background-color: #fcebeb;
 }
 
+.chat-history {
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.chat-history h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.chat-history ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  max-width: 600px;
+  overflow-y: auto;
+}
+
+.chat-history li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.chat-history li:hover {
+  background-color: #eee;
+}
+
+.chat-history a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.chat-history a:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  color: #888;
+  font-size: 18px;
+}
+
 /* utilities */
 .df {
   display: flex;
