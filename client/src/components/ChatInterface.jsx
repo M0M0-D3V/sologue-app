@@ -1,5 +1,5 @@
 //  src/components/ChatInterface.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getMessagesFromChat, saveMessageToChat } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
@@ -10,12 +10,21 @@ const ChatInterface = ({ chatId }) => {
   const [name1, setName1] = useState("Me");
   const [name2, setName2] = useState("Other Me");
 
+  const bottomRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     const loadMessages = async () => {
       if (chatId) {
         try {
           const loadMessages = await getMessagesFromChat(chatId);
           setMessages(loadMessages);
+          scrollToBottom();
         } catch (e) {
           console.error("Error loading messages: ", e);
         }
@@ -23,6 +32,10 @@ const ChatInterface = ({ chatId }) => {
     };
     loadMessages();
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (input.trim() && chatId) {
@@ -72,22 +85,25 @@ const ChatInterface = ({ chatId }) => {
     <div className="chat-interface">
       <main className="text-response">
         {messages.map((message, index) => (
-          <div
-            key={index}
-            className={
-              message.sender === name1 ? "message name1" : "message name2"
-            }
-          >
-            <strong>{message.sender}:</strong>
-            <br />
-            {message.text.split("\n").map((line, i) => (
-              <span key={i}>
-                {line}
-                <br />
-              </span>
-            ))}
+          <div>
+            <div
+              key={index}
+              className={
+                message.sender === name1 ? "message name1" : "message name2"
+              }
+            >
+              <strong>{message.sender}:</strong>
+              <br />
+              {message.text.split("\n").map((line, i) => (
+                <span key={i}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+            </div>
           </div>
         ))}
+        <div ref={bottomRef} />
       </main>
       <div className="toggle-button-container">
         <div className="name-inputs">
