@@ -5,15 +5,13 @@ import {
   getChatsByUser,
   updateChatTitleById,
 } from "../firebaseFunctions";
-import UseViewHeight from "../hooks/UseViewHeight";
 import "./ChatInterface.css";
 
-const ChatHistory = ({ setChatId }) => {
+const ChatHistory = ({ setChatId, viewHeight }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editChat, setEditChat] = useState(null);
   const [chatTitle, setChatTitle] = useState("");
-  const viewHeight = UseViewHeight();
 
   useEffect(() => {
     const fetchChats = async () => {

@@ -36,10 +36,15 @@ const App = () => {
           <Route exact path="/" element={<Home setChatId={setChatId} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/chat/:id" element={<ChatInterface chatId={chatId} />} />
+          <Route
+            path="/chat/:id"
+            element={<ChatInterface chatId={chatId} viewHeight={viewHeight} />}
+          />
           <Route
             path="/history"
-            element={<ChatHistory setChatId={setChatId} />}
+            element={
+              <ChatHistory setChatId={setChatId} viewHeight={viewHeight} />
+            }
           />
           <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />

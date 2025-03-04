@@ -1,16 +1,14 @@
 //  src/components/ChatInterface.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { getMessagesFromChat, saveMessageToChat } from "../firebaseFunctions";
-import UseViewHeight from "../hooks/UseViewHeight";
 import "./ChatInterface.css";
 
-const ChatInterface = ({ chatId }) => {
+const ChatInterface = ({ chatId, viewHeight }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isName1, setIsName1] = useState(true);
   const [name1, setName1] = useState("Me");
   const [name2, setName2] = useState("Other Me");
-  const viewHeight = UseViewHeight();
 
   const bottomRef = useRef(null);
 
