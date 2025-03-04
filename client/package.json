@@ -8,6 +8,7 @@
     "ajv-keywords": "^5.1.0",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "crypto-js": "^4.2.0",
     "firebase": "^11.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
