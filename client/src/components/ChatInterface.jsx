@@ -1,6 +1,7 @@
 //  src/components/ChatInterface.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { getMessagesFromChat, saveMessageToChat } from "../firebaseFunctions";
+import UseViewHeight from "../hooks/UseViewHeight";
 import "./ChatInterface.css";
 
 const ChatInterface = ({ chatId }) => {
@@ -9,6 +10,7 @@ const ChatInterface = ({ chatId }) => {
   const [isName1, setIsName1] = useState(true);
   const [name1, setName1] = useState("Me");
   const [name2, setName2] = useState("Other Me");
+  const viewHeight = UseViewHeight();
 
   const bottomRef = useRef(null);
 
@@ -82,12 +84,11 @@ const ChatInterface = ({ chatId }) => {
   }, [name1, name2]);
 
   return (
-    <div className="chat-interface">
+    <div className="chat-interface" style={{ height: viewHeight }}>
       <main className="text-response">
         {messages.map((message, index) => (
-          <div>
+          <div key={index}>
             <div
-              key={index}
               className={
                 message.sender === name1 ? "message name1" : "message name2"
               }

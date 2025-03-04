@@ -5,6 +5,7 @@ import {
   getChatsByUser,
   updateChatTitleById,
 } from "../firebaseFunctions";
+import UseViewHeight from "../hooks/UseViewHeight";
 import "./ChatInterface.css";
 
 const ChatHistory = ({ setChatId }) => {
@@ -12,6 +13,7 @@ const ChatHistory = ({ setChatId }) => {
   const [loading, setLoading] = useState(true);
   const [editChat, setEditChat] = useState(null);
   const [chatTitle, setChatTitle] = useState("");
+  const viewHeight = UseViewHeight();
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -80,7 +82,7 @@ const ChatHistory = ({ setChatId }) => {
   };
 
   return (
-    <div className="chat-history">
+    <div className="chat-history" style={{ height: viewHeight }}>
       <h2>Chat History</h2>
       {chats.length === 0 ? (
         <p>No chat history available.</p>

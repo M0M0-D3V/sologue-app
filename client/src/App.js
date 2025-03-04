@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import ChatHistory from "./components/ChatHistory";
@@ -12,23 +12,12 @@ import Profile from "./components/Profile";
 import SidebarMenu from "./components/SidebarMenu";
 import Signup from "./components/Signup";
 import { auth } from "./firebaseConfig";
+import UseViewHeight from "./hooks/UseViewHeight";
 
 const App = () => {
   const [user, setUser] = useState(false);
   const [chatId, setChatId] = useState(null);
-  const [viewHeight, setViewHeight] = useState(window.innerHeight);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewHeight(window.innerHeight);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const viewHeight = UseViewHeight();
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -41,7 +30,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="chat-interface App" style={{ height: viewHeight }}>
+      <div className="App" style={{ height: viewHeight }}>
         <header className="chat-header">{user ? <SidebarMenu /> : null}</header>
         <Routes>
           <Route exact path="/" element={<Home setChatId={setChatId} />} />
