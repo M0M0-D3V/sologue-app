@@ -1,13 +1,15 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .App {
   text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -23,7 +25,6 @@ body, html {
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,5 +43,14 @@ body, html {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Media query for desktop screens */
+@media (min-width: 768px) and (orientation: landscape) {
+  .App {
+    width: 768px;
+    max-width: 768px;
+    margin: 0 auto;
   }
 }

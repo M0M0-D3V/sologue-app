@@ -81,8 +81,10 @@ const ChatInterface = ({ chatId, viewHeight }) => {
     document.documentElement.style.setProperty("--name2", name2);
   }, [name1, name2]);
 
+  const adjustedHeight = viewHeight - 81; // Adjust the height to account for the header and footer
+
   return (
-    <div className="chat-interface" style={{ height: viewHeight }}>
+    <div className="chat-interface" style={{ height: adjustedHeight }}>
       <main className="text-response">
         {messages.map((message, index) => (
           <div key={index}>

@@ -7,7 +7,7 @@ import {
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
-const ChatHistory = ({ setChatId, viewHeight }) => {
+const ChatHistory = ({ setChatId }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editChat, setEditChat] = useState(null);
@@ -80,7 +80,7 @@ const ChatHistory = ({ setChatId, viewHeight }) => {
   };
 
   return (
-    <div className="chat-history" style={{ height: viewHeight }}>
+    <div className="chat-history">
       <h2>Chat History</h2>
       {chats.length === 0 ? (
         <p>No chat history available.</p>

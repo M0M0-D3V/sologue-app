@@ -42,9 +42,7 @@ const App = () => {
           />
           <Route
             path="/history"
-            element={
-              <ChatHistory setChatId={setChatId} viewHeight={viewHeight} />
-            }
+            element={<ChatHistory setChatId={setChatId} />}
           />
           <Route path="/profile" element={<Profile />} />
           <Route path="/logout" element={<Logout />} />
