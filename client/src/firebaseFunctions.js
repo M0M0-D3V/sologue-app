@@ -82,7 +82,10 @@ export const saveMessageToChat = async (chatId, message) => {
 
     const chatRef = doc(db, "chats", chatId);
     const messagesCollection = collection(chatRef, "messages");
+    // const encryptedMessage = { ...message, text: encrypt(message.text) };
+    // console.log(encryptedMessage);
     await addDoc(messagesCollection, message);
+    // await addDoc(messagesCollection, encryptedMessage);
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e;
@@ -98,7 +101,11 @@ export const getMessagesFromChat = async (chatId) => {
     const messagesCollection = collection(chatRef, "messages");
     const querySnapshot = await getDocs(messagesCollection);
     querySnapshot.forEach((doc) => {
+      // const message = doc.data();
+      // const decryptedMessage = { ...message, text: decrypt(message.text) };
+      // console.log(decryptedMessage);
       messages.push({ id: doc.id, ...doc.data() });
+      // messages.push({ id: doc.id, ...decryptedMessage });
     });
     return messages;
   } catch (e) {
