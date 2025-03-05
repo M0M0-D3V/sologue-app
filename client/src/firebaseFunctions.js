@@ -5,9 +5,12 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  orderBy,
+  query,
   updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
+import { decrypt, encrypt } from "./utils/CryptoUtils";
 
 export const createChatSession = async () => {
   try {
@@ -82,10 +85,9 @@ export const saveMessageToChat = async (chatId, message) => {
 
     const chatRef = doc(db, "chats", chatId);
     const messagesCollection = collection(chatRef, "messages");
-    // const encryptedMessage = { ...message, text: encrypt(message.text) };
-    // console.log(encryptedMessage);
-    await addDoc(messagesCollection, message);
-    // await addDoc(messagesCollection, encryptedMessage);
+    const encryptedMessage = { ...message, text: encrypt(message.text) };
+    // await addDoc(messagesCollection, message);
+    await addDoc(messagesCollection, encryptedMessage);
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e;
@@ -99,13 +101,16 @@ export const getMessagesFromChat = async (chatId) => {
     const messages = [];
     const chatRef = doc(db, "chats", chatId);
     const messagesCollection = collection(chatRef, "messages");
-    const querySnapshot = await getDocs(messagesCollection);
+    const messagesQuery = query(
+      messagesCollection,
+      orderBy("timestamp", "asc")
+    );
+    const querySnapshot = await getDocs(messagesQuery);
     querySnapshot.forEach((doc) => {
-      // const message = doc.data();
-      // const decryptedMessage = { ...message, text: decrypt(message.text) };
-      // console.log(decryptedMessage);
-      messages.push({ id: doc.id, ...doc.data() });
-      // messages.push({ id: doc.id, ...decryptedMessage });
+      const message = doc.data();
+      const decryptedMessage = { ...message, text: decrypt(message.text) };
+      // messages.push({ id: doc.id, ...doc.data() });
+      messages.push({ id: doc.id, ...decryptedMessage });
     });
     return messages;
   } catch (e) {
