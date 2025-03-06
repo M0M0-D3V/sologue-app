@@ -4,6 +4,7 @@ import {
   deleteMessageById,
   getMessagesFromChat,
   saveMessageToChat,
+  updateMessageById,
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
@@ -13,7 +14,8 @@ const ChatInterface = ({ chatId, viewHeight }) => {
   const [isName1, setIsName1] = useState(true);
   const [name1, setName1] = useState("Me");
   const [name2, setName2] = useState("Other Me");
-  const [editMesage, setEditMessage] = useState(null);
+  const [editMessage, setEditMessage] = useState(null);
+  const [messageText, setMessageText] = useState("");
   const bottomRef = useRef(null);
   const adjustedHeight = viewHeight - 81; // Adjust the height to account for the header and footer
 
@@ -88,9 +90,35 @@ const ChatInterface = ({ chatId, viewHeight }) => {
 
   const handleEdit = (message) => {
     setEditMessage(message.id);
+    setMessageText(message.text);
+    console.log("Edit message with ID: ", message.id);
   };
 
-  const handleDelete = async (chatId, messageId) => {
+  const handleUpdate = async (message) => {
+    try {
+      if (!messageText || messageText.trim() === "") {
+        alert("Message cannot be empty.");
+        return;
+      }
+      const updatedMessage = { ...message, text: messageText };
+      await updateMessageById(chatId, message.id, updatedMessage);
+      setMessages(
+        messages.map((m) => (m.id === message.id ? updatedMessage : m))
+      );
+      setEditMessage(null);
+    } catch (e) {
+      console.error("Error updating message: ", e);
+    }
+  };
+  const handleCancelEdit = () => {
+    setEditMessage(null);
+    setMessageText("");
+  };
+  const handleInputChange = (e) => {
+    setMessageText(e.target.value);
+  };
+
+  const handleDelete = async (messageId) => {
     try {
       await deleteMessageById(chatId, messageId);
       setMessages(messages.filter((message) => message.id !== messageId));
@@ -103,32 +131,48 @@ const ChatInterface = ({ chatId, viewHeight }) => {
     <div className="chat-interface" style={{ height: adjustedHeight }}>
       <main className="text-response">
         {messages.map((message, index) => (
-          <div key={index} className="message-container">
-            <div
-              className={
-                message.sender === name1 ? "message name1" : "message name2"
-              }
-            >
-              <strong>{message.sender}: </strong>
-              {message.text.split("\n").map((line, i) => (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ))}
-            </div>
-            <div
-              className={
-                message.sender === name1
-                  ? "message-buttons1"
-                  : "message-buttons2"
-              }
-            >
-              <button onClick={() => handleEdit(message)}>Edit</button>
-              <button onClick={() => handleDelete(chatId, message.id)}>
-                Delete
-              </button>
-            </div>
+          <div key={index} className="">
+            {editMessage === message.id ? (
+              <div className="message-container">
+                <textarea
+                  className="edit-message"
+                  value={messageText}
+                  onChange={handleInputChange}
+                />
+                <div>
+                  <button onClick={() => handleUpdate(message)}>Update</button>
+                  <button onClick={handleCancelEdit}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div className="message-container">
+                <div
+                  className={
+                    message.sender === name1 ? "message name1" : "message name2"
+                  }
+                >
+                  <strong>{message.sender}: </strong>
+                  {message.text.split("\n").map((line, i) => (
+                    <span key={i}>
+                      {line}
+                      <br />
+                    </span>
+                  ))}
+                </div>
+                <div
+                  className={
+                    message.sender === name1
+                      ? "message-buttons1"
+                      : "message-buttons2"
+                  }
+                >
+                  <button onClick={() => handleEdit(message)}>Edit</button>
+                  <button onClick={() => handleDelete(message.id)}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         ))}
         <div ref={bottomRef} />

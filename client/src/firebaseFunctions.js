@@ -119,6 +119,25 @@ export const getMessagesFromChat = async (chatId) => {
   }
 };
 
+export const getMessageById = async (chatId, messageId) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+    if (!messageId) throw new Error("messageId is required");
+
+    const chatRef = doc(db, "chats", chatId);
+    const messageRef = doc(chatRef, "messages", messageId);
+    const docSnap = await getDocs(messageRef);
+    if (!docSnap.exists()) throw new Error("Message not found.");
+    const message = docSnap.data();
+    const decryptedMessage = { ...message, text: decrypt(message.text) };
+    return { id: docSnap.id, ...decryptedMessage };
+    // return { id: docSnap.id, ...docSnap.data() };
+  } catch (e) {
+    console.error("Error getting document: ", e);
+    throw e;
+  }
+};
+
 export const deleteMessageById = async (chatId, messageId) => {
   try {
     if (!chatId) throw new Error("chatId is required");
@@ -142,7 +161,9 @@ export const updateMessageById = async (chatId, messageId, newMessage) => {
 
     const chatRef = doc(db, "chats", chatId);
     const messageRef = doc(chatRef, "messages", messageId);
-    await updateDoc(messageRef, newMessage);
+    const encryptNewMessage = { ...newMessage, text: encrypt(newMessage.text) };
+    // await updateDoc(messageRef, newMessage);
+    await updateDoc(messageRef, encryptNewMessage);
   } catch (e) {
     console.error("Error updating message: ", e);
     throw e;
