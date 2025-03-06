@@ -31,9 +31,19 @@ const App = () => {
   return (
     <Router>
       <div className="App" style={{ height: viewHeight }}>
-        <header className="chat-header">{user ? <SidebarMenu /> : null}</header>
+        <header className="chat-header">
+          {user ? (
+            <>
+              <SidebarMenu />
+            </>
+          ) : null}
+        </header>
         <Routes>
-          <Route exact path="/" element={<Home setChatId={setChatId} />} />
+          <Route
+            exact
+            path="/"
+            element={<Home setChatId={setChatId} viewHeight={viewHeight} />}
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route

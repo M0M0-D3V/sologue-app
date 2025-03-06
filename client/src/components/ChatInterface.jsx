@@ -1,6 +1,10 @@
 //  src/components/ChatInterface.jsx
 import React, { useEffect, useRef, useState } from "react";
-import { getMessagesFromChat, saveMessageToChat } from "../firebaseFunctions";
+import {
+  deleteMessageById,
+  getMessagesFromChat,
+  saveMessageToChat,
+} from "../firebaseFunctions";
 import "./ChatInterface.css";
 
 const ChatInterface = ({ chatId, viewHeight }) => {
@@ -9,8 +13,9 @@ const ChatInterface = ({ chatId, viewHeight }) => {
   const [isName1, setIsName1] = useState(true);
   const [name1, setName1] = useState("Me");
   const [name2, setName2] = useState("Other Me");
-
+  const [editMesage, setEditMessage] = useState(null);
   const bottomRef = useRef(null);
+  const adjustedHeight = viewHeight - 81; // Adjust the height to account for the header and footer
 
   const scrollToBottom = () => {
     if (bottomRef.current) {
@@ -81,26 +86,48 @@ const ChatInterface = ({ chatId, viewHeight }) => {
     document.documentElement.style.setProperty("--name2", name2);
   }, [name1, name2]);
 
-  const adjustedHeight = viewHeight - 81; // Adjust the height to account for the header and footer
+  const handleEdit = (message) => {
+    setEditMessage(message.id);
+  };
+
+  const handleDelete = async (chatId, messageId) => {
+    try {
+      await deleteMessageById(chatId, messageId);
+      setMessages(messages.filter((message) => message.id !== messageId));
+    } catch (e) {
+      console.error("Error deleting message: ", e);
+    }
+  };
 
   return (
     <div className="chat-interface" style={{ height: adjustedHeight }}>
       <main className="text-response">
         {messages.map((message, index) => (
-          <div key={index}>
+          <div key={index} className="message-container">
             <div
               className={
                 message.sender === name1 ? "message name1" : "message name2"
               }
             >
-              <strong>{message.sender}:</strong>
-              <br />
+              <strong>{message.sender}: </strong>
               {message.text.split("\n").map((line, i) => (
                 <span key={i}>
                   {line}
                   <br />
                 </span>
               ))}
+            </div>
+            <div
+              className={
+                message.sender === name1
+                  ? "message-buttons1"
+                  : "message-buttons2"
+              }
+            >
+              <button onClick={() => handleEdit(message)}>Edit</button>
+              <button onClick={() => handleDelete(chatId, message.id)}>
+                Delete
+              </button>
             </div>
           </div>
         ))}
