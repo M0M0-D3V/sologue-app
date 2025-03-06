@@ -76,7 +76,6 @@ const ChatHistory = ({ setChatId }) => {
     } catch (e) {
       console.error("Error deleting chat: ", e);
     }
-    console.log("Delete chat with ID:", chatId);
   };
 
   return (
