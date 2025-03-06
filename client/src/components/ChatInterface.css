@@ -30,12 +30,39 @@
   background-color: #ffffff;
 }
 
+.message-container {
+  position: relative;
+}
+
 .message {
   margin-bottom: 10px;
   padding: 10px;
   background-color: #e0e0e0;
   border-radius: 5px;
   clear: both;
+}
+
+.message-buttons1{
+  display: none;
+  position: absolute;
+  top: 30%;
+  left: 25px;
+  transform: translateY(-50%)
+}
+
+.message-buttons2 {
+  display: none;
+  position: absolute;
+  top: 30%;
+  right: 25px;
+  transform: translateY(-50%)
+}
+
+.message-container:hover .message-buttons1,
+.message-container:hover .message-buttons2 {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
 }
 
 .name1 {
