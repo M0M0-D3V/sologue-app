@@ -5,6 +5,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  onSnapshot,
   orderBy,
   query,
   updateDoc,
@@ -90,6 +91,32 @@ export const saveMessageToChat = async (chatId, message) => {
     await addDoc(messagesCollection, encryptedMessage);
   } catch (e) {
     console.error("Error adding document: ", e);
+    throw e;
+  }
+};
+
+export const loadMessagesWithListener = (chatId, setMessages) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+
+    const chatRef = doc(db, "chats", chatId);
+    const messagesCollection = collection(chatRef, "messages");
+    const messagesQuery = query(
+      messagesCollection,
+      orderBy("timestamp", "asc")
+    );
+    const unsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
+      const messages = [];
+      querySnapshot.forEach((doc) => {
+        const message = doc.data();
+        const decryptedMessage = { ...message, text: decrypt(message.text) };
+        messages.push({ id: doc.id, ...decryptedMessage });
+      });
+      setMessages(messages);
+    });
+    return unsubscribe;
+  } catch (e) {
+    console.error("Error loading messages with listener: ", e);
     throw e;
   }
 };

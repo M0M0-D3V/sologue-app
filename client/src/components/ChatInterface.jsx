@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   deleteMessageById,
   getMessagesFromChat,
+  loadMessagesWithListener,
   saveMessageToChat,
   updateMessageById,
 } from "../firebaseFunctions";
@@ -25,19 +26,22 @@ const ChatInterface = ({ chatId, viewHeight }) => {
     }
   };
 
-  useEffect(() => {
-    const loadMessages = async () => {
-      if (chatId) {
-        try {
-          const loadMessages = await getMessagesFromChat(chatId);
-          setMessages(loadMessages);
-          scrollToBottom();
-        } catch (e) {
-          console.error("Error loading messages: ", e);
-        }
+  const loadMessages = async () => {
+    if (chatId) {
+      try {
+        const loadMessages = await getMessagesFromChat(chatId);
+        setMessages(loadMessages);
+        scrollToBottom();
+      } catch (e) {
+        console.error("Error loading messages: ", e);
       }
-    };
-    loadMessages();
+    }
+  };
+
+  useEffect(() => {
+    // loadMessages();
+    const unsubscribe = loadMessagesWithListener(chatId, setMessages);
+    return () => unsubscribe && unsubscribe();
   }, []);
 
   useEffect(() => {
