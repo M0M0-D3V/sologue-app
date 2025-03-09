@@ -26,18 +26,6 @@ const ChatInterface = ({ chatId, viewHeight }) => {
     }
   };
 
-  const loadMessages = async () => {
-    if (chatId) {
-      try {
-        const loadMessages = await getMessagesFromChat(chatId);
-        setMessages(loadMessages);
-        scrollToBottom();
-      } catch (e) {
-        console.error("Error loading messages: ", e);
-      }
-    }
-  };
-
   useEffect(() => {
     // loadMessages();
     const unsubscribe = loadMessagesWithListener(chatId, setMessages);
