@@ -17,6 +17,8 @@ import UseViewHeight from "./hooks/UseViewHeight";
 const App = () => {
   const [user, setUser] = useState(false);
   const [chatId, setChatId] = useState(null);
+  const [chatTitle, setChatTitle] = useState("");
+
   const viewHeight = UseViewHeight();
 
   onAuthStateChanged(auth, (user) => {
@@ -34,7 +36,9 @@ const App = () => {
         <header className="chat-header">
           {user ? (
             <>
-              <SidebarMenu />
+              <SidebarMenu setChatId={setChatId} />
+              {chatTitle !== "" ? <h1>{chatTitle}</h1> : <h1>SoLogue</h1>}
+              <h4>Welcome, {auth.currentUser.displayName}</h4>
             </>
           ) : null}
         </header>
@@ -48,7 +52,13 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route
             path="/chat/:id"
-            element={<ChatInterface chatId={chatId} viewHeight={viewHeight} />}
+            element={
+              <ChatInterface
+                chatId={chatId}
+                chatTitle={chatTitle}
+                viewHeight={viewHeight}
+              />
+            }
           />
           <Route
             path="/history"

@@ -79,49 +79,53 @@ const ChatHistory = ({ setChatId }) => {
   };
 
   return (
-    <div className="chat-history">
-      <h2>Chat History</h2>
-      {chats.length === 0 ? (
-        <p>No chat history available.</p>
-      ) : (
-        <ul>
-          {chats.map((chat) => (
-            <li key={chat.id} className="">
-              {editChat === chat.id ? (
-                <div className="df jcsb">
-                  <input
-                    className="text-field"
-                    type="text"
-                    value={chatTitle}
-                    onChange={handleInputChange}
-                    placeholder="Edit chat title"
-                  />
-                  <div>
-                    <button onClick={() => handleUpdate(chat.id)}>Save</button>
-                    <button onClick={handleCancelEdit}>Cancel</button>
+    <>
+      <div className="chat-history">
+        <h2>Chat History</h2>
+        {chats.length === 0 ? (
+          <p>No chat history available.</p>
+        ) : (
+          <ul>
+            {chats.map((chat) => (
+              <li key={chat.id} className="">
+                {editChat === chat.id ? (
+                  <div className="df jcsb">
+                    <input
+                      className="text-field"
+                      type="text"
+                      value={chatTitle}
+                      onChange={handleInputChange}
+                      placeholder="Edit chat title"
+                    />
+                    <div>
+                      <button onClick={() => handleUpdate(chat.id)}>
+                        Save
+                      </button>
+                      <button onClick={handleCancelEdit}>Cancel</button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="df jcsb">
-                  <Link
-                    to={`/chat/${chat.id}`}
-                    onClick={() => setChatId(chat.id)}
-                  >
-                    {chat.title}
-                  </Link>
-                  <div>
-                    <button onClick={() => handleEdit(chat)}>Edit</button>
-                    <button onClick={() => handleDelete(chat.id)}>
-                      Delete
-                    </button>
+                ) : (
+                  <div className="df jcsb">
+                    <Link
+                      to={`/chat/${chat.id}`}
+                      onClick={() => setChatId(chat.id)}
+                    >
+                      {chat.title}
+                    </Link>
+                    <div>
+                      <button onClick={() => handleEdit(chat)}>Edit</button>
+                      <button onClick={() => handleDelete(chat.id)}>
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
   );
 };
 

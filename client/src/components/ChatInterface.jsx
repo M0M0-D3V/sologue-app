@@ -2,14 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   deleteMessageById,
-  getMessagesFromChat,
   loadMessagesWithListener,
   saveMessageToChat,
   updateMessageById,
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
-const ChatInterface = ({ chatId, viewHeight }) => {
+const ChatInterface = ({ chatId, chatTitle, viewHeight }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isName1, setIsName1] = useState(true);

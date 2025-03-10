@@ -22,7 +22,6 @@ const Home = ({ setChatId, viewHeight }) => {
 
   return (
     <div className="chat-interface" style={{ height: adjustedHeight }}>
-      <h1>Welcome to SoLogue</h1>
       <p>Have an insightful conversation with yourself!</p>
       <div className="chat-history">
         <h2>Chat History</h2>
