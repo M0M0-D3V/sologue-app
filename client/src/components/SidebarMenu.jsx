@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import CreateNewChat from "./CreateNewChat";
 import "./SidebarMenu.css";
 
-const SidebarMenu = () => {
+const SidebarMenu = ({ setChatId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -22,6 +23,9 @@ const SidebarMenu = () => {
               <Link to="/">
                 <li>Home</li>
               </Link>
+              <li>
+                <CreateNewChat setChatId={setChatId} />
+              </li>
               <Link to="/history">
                 <li>Chat History</li>
               </Link>
