@@ -7,11 +7,10 @@ import {
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
-const ChatHistory = ({ setChatId }) => {
+const ChatHistory = ({ setChatId, chatTitle, setChatTitle }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editChat, setEditChat] = useState(null);
-  const [chatTitle, setChatTitle] = useState("");
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -78,6 +77,11 @@ const ChatHistory = ({ setChatId }) => {
     }
   };
 
+  const handleClickChat = (chat) => {
+    setChatId(chat.id);
+    setChatTitle(chat.title);
+  };
+
   return (
     <>
       <div className="chat-history">
@@ -108,7 +112,7 @@ const ChatHistory = ({ setChatId }) => {
                   <div className="df jcsb">
                     <Link
                       to={`/chat/${chat.id}`}
-                      onClick={() => setChatId(chat.id)}
+                      onClick={() => handleClickChat(chat)}
                     >
                       {chat.title}
                     </Link>
