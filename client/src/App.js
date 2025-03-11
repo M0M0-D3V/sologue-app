@@ -46,7 +46,13 @@ const App = () => {
           <Route
             exact
             path="/"
-            element={<Home setChatId={setChatId} viewHeight={viewHeight} />}
+            element={
+              <Home
+                setChatId={setChatId}
+                setChatTitle={setChatTitle}
+                viewHeight={viewHeight}
+              />
+            }
           />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />

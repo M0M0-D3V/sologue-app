@@ -2,12 +2,13 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import "./ChatInterface.css";
 import CreateNewChat from "./CreateNewChat";
 import "./Home.css";
 
-const Home = ({ setChatId, viewHeight }) => {
+const Home = ({ setChatId, setChatTitle, viewHeight }) => {
   const adjustedHeight = viewHeight - 81;
 
   let navigate = useNavigate();
@@ -22,15 +23,28 @@ const Home = ({ setChatId, viewHeight }) => {
 
   return (
     <div className="chat-interface" style={{ height: adjustedHeight }}>
-      <p>Have an insightful conversation with yourself!</p>
+      <h2>Have an insightful conversation with yourself!</h2>
       <div className="chat-history">
-        <h2>Chat History</h2>
-        <p>Start a new chat or continue an existing one.</p>
-        <CreateNewChat setChatId={setChatId} />
+        <h3>Start a new chat or continue an existing one.</h3>
+        <div className="df ac">
+          <Link to="/history" onClick={() => setChatTitle("Chat History")}>
+            <button>Chat History</button>
+          </Link>
+          <CreateNewChat setChatId={setChatId} />
+        </div>
       </div>
       <section className="updates-section">
         <h2 className="updates-title">Latest Updates</h2>
         <div className="updates-list">
+          <div className="update-card">
+            <h3 className="update-header">Small Quality of Life Changes..</h3>
+            <p className="update-description">
+              We've made some small quality of life changes to improve your
+              experience. Enjoy a slightly smoother and slightly more intuitive
+              interface! More little things to come!
+            </p>
+            <span className="update-date">March 11, 2025</span>
+          </div>
           <div className="update-card">
             <h3 className="update-header">New Feature: Edit/Delete Messages</h3>
             <p className="update-description">
