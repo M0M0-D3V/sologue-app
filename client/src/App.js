@@ -17,7 +17,7 @@ import UseViewHeight from "./hooks/UseViewHeight";
 const App = () => {
   const [user, setUser] = useState(false);
   const [chatId, setChatId] = useState(null);
-  const [chatTitle, setChatTitle] = useState("");
+  const [chatTitle, setChatTitle] = useState("SoLogue");
 
   const viewHeight = UseViewHeight();
 
