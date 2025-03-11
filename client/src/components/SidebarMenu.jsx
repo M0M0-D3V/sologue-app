@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CreateNewChat from "./CreateNewChat";
 import "./SidebarMenu.css";
 
-const SidebarMenu = ({ setChatId }) => {
+const SidebarMenu = ({ setChatId, setChatTitle }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -20,16 +20,16 @@ const SidebarMenu = ({ setChatId }) => {
           <button onClick={toggleMenu} className="menu-button">
             ☰
             <ul>
-              <Link to="/">
+              <Link to="/" onClick={() => setChatTitle("SoLogue")}>
                 <li>Home</li>
               </Link>
               <li>
                 <CreateNewChat setChatId={setChatId} />
               </li>
-              <Link to="/history">
+              <Link to="/history" onClick={() => setChatTitle("Chat History")}>
                 <li>Chat History</li>
               </Link>
-              <Link to="/profile">
+              <Link to="/profile" onClick={() => setChatTitle("Profile")}>
                 <li>Profile</li>
               </Link>
               <Link to="/logout">

@@ -36,8 +36,8 @@ const App = () => {
         <header className="chat-header">
           {user ? (
             <>
-              <SidebarMenu setChatId={setChatId} />
-              {chatTitle !== "" ? <h1>{chatTitle}</h1> : <h1>SoLogue</h1>}
+              <SidebarMenu setChatId={setChatId} setChatTitle={setChatTitle} />
+              {chatTitle !== "" ? <h1>{chatTitle}</h1> : null}
               <h4>Welcome, {auth.currentUser.displayName}</h4>
             </>
           ) : null}
