@@ -136,31 +136,38 @@ const ChatInterface = ({ chatId, chatTitle, viewHeight }) => {
                 </div>
               </div>
             ) : (
-              <div className="message-container">
-                <div
-                  className={
-                    message.sender === name1 ? "message name1" : "message name2"
-                  }
-                >
-                  <strong>{message.sender}: </strong>
-                  {message.text.split("\n").map((line, i) => (
-                    <span key={i}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
-                </div>
-                <div
-                  className={
-                    message.sender === name1
-                      ? "message-buttons1"
-                      : "message-buttons2"
-                  }
-                >
-                  <button onClick={() => handleEdit(message)}>Edit</button>
-                  <button onClick={() => handleDelete(message.id)}>
-                    Delete
-                  </button>
+              <div>
+                <div className="message-container">
+                  <div
+                    className={
+                      message.sender === name1
+                        ? "message name1"
+                        : "message name2"
+                    }
+                  >
+                    <strong>{message.sender}: </strong>
+                    {message.text.split("\n").map((line, i) => (
+                      <p className="message-text">
+                        <span key={i}>
+                          {line}
+                          <br />
+                        </span>
+                      </p>
+                    ))}
+                    <em className="message-time">{message.time}</em>
+                  </div>
+                  <div
+                    className={
+                      message.sender === name1
+                        ? "message-buttons1"
+                        : "message-buttons2"
+                    }
+                  >
+                    <button onClick={() => handleEdit(message)}>Edit</button>
+                    <button onClick={() => handleDelete(message.id)}>
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

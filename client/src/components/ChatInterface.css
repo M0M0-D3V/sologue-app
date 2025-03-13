@@ -42,20 +42,32 @@
   clear: both;
 }
 
-.message-buttons1{
+.message-time {
+  font-size: 0.7em;
+  color: #888;
+  margin: 0;
+  min-width: fit-content;
+}
+
+.message-text {
+  padding: 0;
+  margin: 0;
+  text-indent: 0.5em;
+}
+
+.message-buttons1, .message-buttons2{
   display: none;
   position: absolute;
   top: 30%;
-  left: 25px;
   transform: translateY(-50%)
 }
 
+.message-buttons1{
+  left: 25px;
+}
+
 .message-buttons2 {
-  display: none;
-  position: absolute;
-  top: 30%;
   right: 25px;
-  transform: translateY(-50%)
 }
 
 .message-container:hover .message-buttons1,
@@ -67,7 +79,6 @@
 
 .name1 {
   min-width: fit-content;
-  min-width: -webkit- stretch;
   max-width: 0;
   background-color: var(--color1);
   text-align: left;
@@ -77,7 +88,6 @@
   text-align: right;
   float: right;
   min-width: fit-content;
-  min-width: -webkit- stretch;
   max-width: 0;
   background-color: var(--color2);
 }
