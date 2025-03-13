@@ -109,7 +109,12 @@ export const loadMessagesWithListener = (chatId, setMessages) => {
       const messages = [];
       querySnapshot.forEach((doc) => {
         const message = doc.data();
-        const decryptedMessage = { ...message, text: decrypt(message.text) };
+        const decryptedMessage = {
+          ...message,
+          text: decrypt(message.text),
+          time: formatTime(message.timestamp),
+          date: formatDate(message.timestamp),
+        };
         messages.push({ id: doc.id, ...decryptedMessage });
       });
       setMessages(messages);
@@ -208,4 +213,25 @@ export const getUserProfile = async () => {
     console.error("Error getting user profile: ", e);
     throw e;
   }
+};
+
+export const formatTime = (timestamp) => {
+  const date = new Date(timestamp);
+  // Extract hours, minutes, and seconds
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  // Combine into desired formats
+  return `${hours}:${minutes}`;
+};
+
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  // Extract date components
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
+  const day = date.getDate().toString().padStart(2, "0");
+
+  // Combine into desired formats
+  return `${month}-${day}-${year}`;
 };
