@@ -4,14 +4,72 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   orderBy,
   query,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import { decrypt, encrypt } from "./utils/CryptoUtils";
+
+export const checkAndCreateUserDocument = async (user) => {
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+  try {
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || "Anonymous",
+        photoURL: user.photoURL || null,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
+      };
+      await setDoc(userRef, userData);
+      console.log("User document created successfully");
+    } else {
+      console.log("User document already exists");
+      await updateDoc(userRef, {
+        lastLogin: new Date().toISOString(),
+      });
+      console.log("User document updated successfully");
+    }
+  } catch (e) {
+    console.error("Error checking user document: ", e);
+    throw e;
+  }
+};
+
+export const getUserDocument = async (userId) => {
+  if (!userId) return null;
+  const userRef = doc(db, "users", userId);
+  try {
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      console.log("User document fetched successfully");
+      return {
+        id: userDoc.id,
+        displayName: userData.displayName || "Anonymous",
+        email: userData.email || "No email provided",
+        photoURL: userData.photoURL || null,
+        createdAt: userData.createdAt ? userData.createdAt : "Unknown",
+        lastLogin: userData.lastLogin ? userData.lastLogin : "Unknown",
+      };
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (e) {
+    console.error("Error getting user document: ", e);
+    throw e;
+  }
+};
 
 export const createChatSession = async () => {
   try {
@@ -207,8 +265,24 @@ export const getUserProfile = async () => {
     const user = auth.currentUser;
     if (!user) throw new Error("User is not authenticated");
 
-    const { displayName, email, photoURL } = user;
-    return { displayName, email, photoURL };
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) throw new Error("User document not found");
+    const userData = userDoc.data();
+    const formattedUserData = {
+      id: userDoc.id,
+      displayName: userData.displayName || "Anonymous",
+      email: userData.email || "No email provided",
+      photoURL: userData.photoURL || null,
+      createdAt: userData.createdAt ? userData.createdAt : "Unknown",
+      lastLogin: userData.lastLogin
+        ? formatDate(userData.lastLogin) +
+          " at " +
+          formatTime(userData.lastLogin)
+        : "Unknown",
+    };
+    console.log("User profile fetched successfully");
+    return formattedUserData;
   } catch (e) {
     console.error("Error getting user profile: ", e);
     throw e;
@@ -227,11 +301,10 @@ export const formatTime = (timestamp) => {
 
 export const formatDate = (timestamp) => {
   const date = new Date(timestamp);
-  // Extract date components
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
-  const day = date.getDate().toString().padStart(2, "0");
 
-  // Combine into desired formats
-  return `${month}-${day}-${year}`;
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  }).format(date);
 };

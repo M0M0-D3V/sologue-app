@@ -12,6 +12,7 @@ import Profile from "./components/Profile";
 import SidebarMenu from "./components/SidebarMenu";
 import Signup from "./components/Signup";
 import { auth } from "./firebaseConfig";
+import { checkAndCreateUserDocument } from "./firebaseFunctions";
 import UseViewHeight from "./hooks/UseViewHeight";
 
 const App = () => {
@@ -21,9 +22,10 @@ const App = () => {
 
   const viewHeight = UseViewHeight();
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
+      await checkAndCreateUserDocument(user);
       setUser(true);
     } else {
       // User is signed out
