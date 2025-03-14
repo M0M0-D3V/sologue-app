@@ -12,7 +12,7 @@ import Profile from "./components/Profile";
 import SidebarMenu from "./components/SidebarMenu";
 import Signup from "./components/Signup";
 import { auth } from "./firebaseConfig";
-import { checkAndCreateUserDocument } from "./firebaseFunctions";
+import { checkAndCreateUserDocument, getLastChatId } from "./firebaseFunctions";
 import UseViewHeight from "./hooks/UseViewHeight";
 
 const App = () => {
@@ -27,6 +27,10 @@ const App = () => {
       // User is signed in, see docs for a list of available properties
       await checkAndCreateUserDocument(user);
       setUser(true);
+      const lastChatId = await getLastChatId();
+      if (lastChatId !== null) {
+        setChatId(lastChatId);
+      }
     } else {
       // User is signed out
     }
@@ -53,6 +57,18 @@ const App = () => {
                 setChatId={setChatId}
                 setChatTitle={setChatTitle}
                 viewHeight={viewHeight}
+                openLastChat={true}
+              />
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <Home
+                setChatId={setChatId}
+                setChatTitle={setChatTitle}
+                viewHeight={viewHeight}
+                openLastChat={false}
               />
             }
           />
@@ -63,6 +79,7 @@ const App = () => {
             element={
               <ChatInterface
                 chatId={chatId}
+                setChatId={setChatId}
                 chatTitle={chatTitle}
                 viewHeight={viewHeight}
               />

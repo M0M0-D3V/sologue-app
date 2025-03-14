@@ -1,5 +1,6 @@
 //  src/components/ChatInterface.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   deleteMessageById,
   loadMessagesWithListener,
@@ -8,7 +9,8 @@ import {
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
-const ChatInterface = ({ chatId, chatTitle, viewHeight }) => {
+const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
+  const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isName1, setIsName1] = useState(true);
@@ -27,7 +29,8 @@ const ChatInterface = ({ chatId, chatTitle, viewHeight }) => {
 
   useEffect(() => {
     // loadMessages();
-    const unsubscribe = loadMessagesWithListener(chatId, setMessages);
+    setChatId(id);
+    const unsubscribe = loadMessagesWithListener(id, setMessages);
     return () => unsubscribe && unsubscribe();
   }, []);
 

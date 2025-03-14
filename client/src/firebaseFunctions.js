@@ -76,11 +76,11 @@ export const createChatSession = async () => {
     const chatsCollection = collection(db, "chats");
     const currentTimestamp = new Date().toISOString();
     const chatRef = await addDoc(chatsCollection, {
-      title: currentTimestamp,
+      title: formatDate(currentTimestamp),
       createdAt: currentTimestamp,
       userId: user.uid,
     });
-    return chatRef.id;
+    return chatRef;
   } catch (e) {
     console.error("Error creating chat session: ", e);
     throw e;
@@ -111,7 +111,7 @@ export const getLastChatId = async () => {
   try {
     const user = auth.currentUser;
     const userData = await getUserDocument(user.uid);
-    if (userData.exists()) {
+    if (userData !== null) {
       console.log("LastChatId Found");
       return userData.lastChatId;
     } else {

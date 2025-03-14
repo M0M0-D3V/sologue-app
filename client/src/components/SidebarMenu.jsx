@@ -20,11 +20,14 @@ const SidebarMenu = ({ setChatId, setChatTitle }) => {
           <button onClick={toggleMenu} className="menu-button">
             ☰
             <ul>
-              <Link to="/" onClick={() => setChatTitle("SoLogue")}>
+              <Link to="/home" onClick={() => setChatTitle("SoLogue")}>
                 <li>Home</li>
               </Link>
               <li>
-                <CreateNewChat setChatId={setChatId} />
+                <CreateNewChat
+                  setChatId={setChatId}
+                  setChatTitle={setChatTitle}
+                />
               </li>
               <Link to="/history" onClick={() => setChatTitle("Chat History")}>
                 <li>Chat History</li>

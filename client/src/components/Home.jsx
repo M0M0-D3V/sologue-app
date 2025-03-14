@@ -9,11 +9,12 @@ import "./ChatInterface.css";
 import CreateNewChat from "./CreateNewChat";
 import "./Home.css";
 
-const Home = ({ setChatId, setChatTitle, viewHeight }) => {
+const Home = ({ setChatId, setChatTitle, viewHeight, openLastChat }) => {
   const adjustedHeight = viewHeight - 81;
 
   let navigate = useNavigate();
   onAuthStateChanged(auth, async (user) => {
+    if (!openLastChat) return;
     if (user) {
       try {
         // Fetch user data
@@ -46,6 +47,14 @@ const Home = ({ setChatId, setChatTitle, viewHeight }) => {
       <section className="updates-section">
         <h2 className="updates-title">Latest Updates</h2>
         <div className="updates-list">
+          <div className="update-card">
+            <h3 className="update-header">Resume Chat Feature</h3>
+            <p className="update-description">
+              You can now resume last chat! And yes... There are bugs! Let me
+              know what is bugging you!
+            </p>
+            <span className="update-date">March 14, 2025</span>
+          </div>
           <div className="update-card">
             <h3 className="update-header">Small Quality of Life Changes..</h3>
             <p className="update-description">
