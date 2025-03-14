@@ -15,7 +15,9 @@ import {
 import { auth, db } from "./firebaseConfig";
 import { decrypt, encrypt } from "./utils/CryptoUtils";
 
-export const checkAndCreateUserDocument = async (user) => {
+export const checkAndCreateUserDocument = async () => {
+  const user = auth.currentUser;
+
   if (!user) return;
 
   const userRef = doc(db, "users", user.uid);
@@ -27,6 +29,7 @@ export const checkAndCreateUserDocument = async (user) => {
         email: user.email,
         displayName: user.displayName || "Anonymous",
         photoURL: user.photoURL || null,
+        lastChatId: user.lastChatId || null,
         createdAt: new Date().toISOString(),
         lastLogin: new Date().toISOString(),
       };
@@ -45,24 +48,18 @@ export const checkAndCreateUserDocument = async (user) => {
   }
 };
 
-export const getUserDocument = async (userId) => {
-  if (!userId) return null;
-  const userRef = doc(db, "users", userId);
+export const getUserDocument = async () => {
+  const user = auth.currentUser;
+
+  if (!user.uid) return null;
+  const userRef = doc(db, "users", user.uid);
   try {
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
-      const userData = userDoc.data();
       console.log("User document fetched successfully");
-      return {
-        id: userDoc.id,
-        displayName: userData.displayName || "Anonymous",
-        email: userData.email || "No email provided",
-        photoURL: userData.photoURL || null,
-        createdAt: userData.createdAt ? userData.createdAt : "Unknown",
-        lastLogin: userData.lastLogin ? userData.lastLogin : "Unknown",
-      };
+      return userDoc.data();
     } else {
-      console.log("No such document!");
+      console.log("User document does not exist.");
       return null;
     }
   } catch (e) {
@@ -110,6 +107,35 @@ export const getChatsByUser = async () => {
   }
 };
 
+export const getLastChatId = async () => {
+  try {
+    const user = auth.currentUser;
+    const userData = await getUserDocument(user.uid);
+    if (userData.exists()) {
+      console.log("LastChatId Found");
+      return userData.lastChatId;
+    } else {
+      console.log("LastChatId does not exist.");
+      return null;
+    }
+  } catch (e) {
+    console.error("Error getting lastChatId by user:", e);
+    throw e;
+  }
+};
+
+export const updateLastChatId = async (chatId) => {
+  try {
+    const user = auth.currentUser;
+    const userRef = doc(db, "users", user.uid);
+    await updateDoc(userRef, { lastChatId: chatId });
+    console.log(`lastChatId updated to: ${chatId}`);
+  } catch (e) {
+    console.error("Error updating lastChatId:", e);
+    throw e;
+  }
+};
+
 export const updateChatTitleById = async (chatId, newTitle) => {
   try {
     if (!chatId) throw new Error("chatId is required");
@@ -120,6 +146,30 @@ export const updateChatTitleById = async (chatId, newTitle) => {
     await updateDoc(chatRef, { title: newTitle });
   } catch (e) {
     console.error("Error updating chat title: ", e);
+    throw e;
+  }
+};
+
+export const getChatById = async (chatId) => {
+  try {
+    if (!chatId) throw new Error("chatId is required");
+    const chatRef = doc(db, "chats", chatId);
+    const docSnap = await getDoc(chatRef);
+    if (!docSnap.exists()) throw new Error("Chat not found.");
+    const chatData = docSnap.data();
+    const formattedChatData = {
+      id: docSnap.id,
+      title: chatData.title || "Untitled",
+      createdAt: chatData.createdAt
+        ? formatDate(chatData.createdAt) +
+          " at " +
+          formatTime(chatData.createdAt)
+        : "Unknown",
+      userId: chatData.userId || "Unknown",
+    };
+    return formattedChatData;
+  } catch (e) {
+    console.error("Error getting chat document: ", e);
     throw e;
   }
 };
@@ -292,11 +342,16 @@ export const getUserProfile = async () => {
 export const formatTime = (timestamp) => {
   const date = new Date(timestamp);
   // Extract hours, minutes, and seconds
-  const hours = date.getHours().toString().padStart(2, "0");
+  let hours = date.getHours().toString().padStart(2, "0");
+  let sign = "AM";
+  if (hours > 12) {
+    hours -= 12;
+    sign = "PM";
+  }
   const minutes = date.getMinutes().toString().padStart(2, "0");
 
   // Combine into desired formats
-  return `${hours}:${minutes}`;
+  return `${hours}:${minutes} ${sign}`;
 };
 
 export const formatDate = (timestamp) => {

@@ -4,6 +4,7 @@ import {
   deleteChatById,
   getChatsByUser,
   updateChatTitleById,
+  updateLastChatId,
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
@@ -77,7 +78,8 @@ const ChatHistory = ({ setChatId, chatTitle, setChatTitle }) => {
     }
   };
 
-  const handleClickChat = (chat) => {
+  const handleClickChat = async (chat) => {
+    await updateLastChatId(chat.id);
     setChatId(chat.id);
     setChatTitle(chat.title);
   };

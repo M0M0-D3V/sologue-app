@@ -4,6 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../firebaseConfig";
+import { getLastChatId } from "../firebaseFunctions";
 import "./ChatInterface.css";
 import CreateNewChat from "./CreateNewChat";
 import "./Home.css";
@@ -12,9 +13,18 @@ const Home = ({ setChatId, setChatTitle, viewHeight }) => {
   const adjustedHeight = viewHeight - 81;
 
   let navigate = useNavigate();
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
+      try {
+        // Fetch user data
+        const lastChatId = await getLastChatId();
+
+        if (lastChatId !== null) {
+          navigate(`/chat/${lastChatId}`);
+        }
+      } catch (error) {
+        console.error("Error during navigation setup:", error);
+      }
     } else {
       // User is signed out
       navigate("/login");

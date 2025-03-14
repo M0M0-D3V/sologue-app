@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import { createChatSession } from "../firebaseFunctions";
+import { createChatSession, updateLastChatId } from "../firebaseFunctions";
 
 const CreateNewChat = ({ setChatId }) => {
   const navigate = useNavigate();
@@ -9,6 +9,7 @@ const CreateNewChat = ({ setChatId }) => {
     try {
       const newChatId = await createChatSession(new Date().toISOString());
       setChatId(newChatId);
+      await updateLastChatId(newChatId);
       navigate(`/chat/${newChatId}`);
     } catch (e) {
       console.error("Error starting chat session: ", e);

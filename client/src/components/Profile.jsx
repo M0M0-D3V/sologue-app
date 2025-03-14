@@ -8,6 +8,7 @@ const Profile = () => {
     email: "",
     photoURL: "",
     lastLogin: "",
+    lastChatId: "",
   });
   useEffect(() => {
     const fetchUserProfile = async () => {
