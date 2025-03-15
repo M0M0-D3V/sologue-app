@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { createChatSession, updateLastChatId } from "../firebaseFunctions";
 
 const CreateNewChat = ({ setChatId, setChatTitle }) => {
@@ -19,7 +20,7 @@ const CreateNewChat = ({ setChatId, setChatTitle }) => {
 
   return (
     <div>
-      <button onClick={handleCreateNewChat}>Create New Chat</button>
+      <Link onClick={handleCreateNewChat}>Create New Chat</Link>
     </div>
   );
 };
