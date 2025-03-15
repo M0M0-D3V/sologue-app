@@ -11,11 +11,12 @@ import "./ChatInterface.css";
 
 const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
   const { id } = useParams();
+  const [isLoaded, setIsLoaded] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isName1, setIsName1] = useState(true);
-  const [name1, setName1] = useState("Me");
-  const [name2, setName2] = useState("Other Me");
+  const [name1, setName1] = useState(""); // Me
+  const [name2, setName2] = useState(""); // Other Me
   const [editMessage, setEditMessage] = useState(null);
   const [messageText, setMessageText] = useState("");
   const bottomRef = useRef(null);
@@ -27,8 +28,25 @@ const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
     }
   };
 
+  const loadNames = () => {
+    let len = messages.length;
+    for (let i = len - 1; i >= 0; i--) {
+      if (!messages[i].isOtherMe) {
+        setName1(messages[i].sender);
+        console.log(`name1 set to: ${messages[i].sender}`);
+        break;
+      }
+    }
+    for (let i = len - 1; i >= 0; i--) {
+      if (messages[i].isOtherMe) {
+        setName2(messages[i].sender);
+        console.log(`name2 set to: ${messages[i].sender}`);
+        break;
+      }
+    }
+  };
+
   useEffect(() => {
-    // loadMessages();
     setChatId(id);
     const unsubscribe = loadMessagesWithListener(id, setMessages);
     return () => unsubscribe && unsubscribe();
@@ -36,6 +54,7 @@ const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
 
   useEffect(() => {
     scrollToBottom();
+    loadNames();
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -76,11 +95,11 @@ const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
     }
   };
 
-  useEffect(() => {
-    // update dom for custom names
-    document.documentElement.style.setProperty("--name1", name1);
-    document.documentElement.style.setProperty("--name2", name2);
-  }, [name1, name2]);
+  // useEffect(() => {
+  //   // update dom for custom names
+  //   document.documentElement.style.setProperty("--name1", name1);
+  //   document.documentElement.style.setProperty("--name2", name2);
+  // }, [name1, name2]);
 
   const handleEdit = (message) => {
     setEditMessage(message.id);
