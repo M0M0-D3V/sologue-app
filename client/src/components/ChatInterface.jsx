@@ -11,7 +11,6 @@ import "./ChatInterface.css";
 
 const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
   const { id } = useParams();
-  const [isLoaded, setIsLoaded] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isName1, setIsName1] = useState(true);
