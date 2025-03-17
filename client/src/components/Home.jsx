@@ -39,9 +39,9 @@ const Home = ({ setChatId, setChatTitle, viewHeight, openLastChat }) => {
         <h3>Start a new chat or continue an existing one.</h3>
         <div className="df ac">
           <Link to="/history" onClick={() => setChatTitle("Chat History")}>
-            <button>Chat History</button>
+            Chat History
           </Link>
-          <CreateNewChat setChatId={setChatId} />
+          <CreateNewChat setChatId={setChatId} setChatTitle={setChatTitle} />
         </div>
       </div>
       <section className="updates-section">

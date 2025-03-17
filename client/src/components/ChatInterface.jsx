@@ -9,7 +9,7 @@ import {
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
-const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
+const ChatInterface = ({ chatId, setChatId, setChatTitle, viewHeight }) => {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -28,6 +28,11 @@ const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
   };
 
   const loadNames = () => {
+    if (messages.length === 0) {
+      setName1("Me");
+      setName2("Other Me");
+      return;
+    }
     let len = messages.length;
     for (let i = len - 1; i >= 0; i--) {
       if (!messages[i].isOtherMe) {
@@ -49,12 +54,12 @@ const ChatInterface = ({ chatId, setChatId, chatTitle, viewHeight }) => {
     setChatId(id);
     const unsubscribe = loadMessagesWithListener(id, setMessages);
     return () => unsubscribe && unsubscribe();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     scrollToBottom();
     loadNames();
-  }, [messages]);
+  }, [messages, id]);
 
   const handleSendMessage = async () => {
     if (input.trim() && chatId) {

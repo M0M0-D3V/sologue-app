@@ -81,6 +81,7 @@ const App = () => {
                 chatId={chatId}
                 setChatId={setChatId}
                 chatTitle={chatTitle}
+                setChatTitle={setChatTitle}
                 viewHeight={viewHeight}
               />
             }

@@ -80,7 +80,10 @@ export const createChatSession = async () => {
       createdAt: currentTimestamp,
       userId: user.uid,
     });
-    return chatRef;
+
+    // fetch the newly created chat doc and return it
+    const chatSnapshot = await getDoc(chatRef);
+    return { id: chatRef.id, ...chatSnapshot.data() };
   } catch (e) {
     console.error("Error creating chat session: ", e);
     throw e;
