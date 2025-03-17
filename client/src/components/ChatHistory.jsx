@@ -12,6 +12,8 @@ const ChatHistory = ({ setChatId, chatTitle, setChatTitle }) => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editChat, setEditChat] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -66,6 +68,18 @@ const ChatHistory = ({ setChatId, chatTitle, setChatTitle }) => {
     setChatTitle("");
   };
   const handleInputChange = (e) => {
+    const value = e.target.value;
+    // Validation rules
+    if (value.trim() === "") {
+      setErrorMessage("Chat title cannot be empty");
+      setIsValid(false);
+    } else if (value.length > 40) {
+      setErrorMessage("Chat title must be 40 characters or fewer");
+      setIsValid(false);
+    } else {
+      setErrorMessage("");
+      setIsValid(true);
+    }
     setChatTitle(e.target.value);
   };
 
@@ -103,8 +117,15 @@ const ChatHistory = ({ setChatId, chatTitle, setChatTitle }) => {
                       onChange={handleInputChange}
                       placeholder="Edit chat title"
                     />
+                    {/* Error message */}
+                    {errorMessage && (
+                      <p className="error-text">{errorMessage}</p>
+                    )}
                     <div>
-                      <button onClick={() => handleUpdate(chat.id)}>
+                      <button
+                        onClick={() => handleUpdate(chat.id)}
+                        disabled={!isValid}
+                      >
                         Save
                       </button>
                       <button onClick={handleCancelEdit}>Cancel</button>
