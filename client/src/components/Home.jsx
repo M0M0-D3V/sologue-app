@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { auth } from "../firebaseConfig";
-import { getLastChatId } from "../firebaseFunctions";
+import { getChatById, getLastChatId } from "../firebaseFunctions";
 import "./ChatInterface.css";
 import CreateNewChat from "./CreateNewChat";
 import "./Home.css";
@@ -21,6 +21,9 @@ const Home = ({ setChatId, setChatTitle, viewHeight, openLastChat }) => {
         const lastChatId = await getLastChatId();
 
         if (lastChatId !== null) {
+          // If last chat exists, get id and title
+          const chat = await getChatById(lastChatId);
+          setChatTitle(chat.title);
           navigate(`/chat/${lastChatId}`);
         }
       } catch (error) {
