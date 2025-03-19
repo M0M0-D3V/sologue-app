@@ -1,0 +1,19 @@
+.df {
+  display: flex;
+}
+
+.fdc {
+  flex-direction: column;
+}
+
+.jcsb {
+  justify-content: space-between;
+}
+
+.f1 {
+  flex: 1;
+}
+
+.aifs {
+  align-items: flex-start;
+}

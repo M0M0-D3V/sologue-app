@@ -9,7 +9,13 @@ import {
 } from "../firebaseFunctions";
 import "./ChatInterface.css";
 
-const ChatInterface = ({ chatId, setChatId, setChatTitle, viewHeight }) => {
+const ChatInterface = ({
+  chatId,
+  setChatId,
+  chatTitle,
+  setChatTitle,
+  viewHeight,
+}) => {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");

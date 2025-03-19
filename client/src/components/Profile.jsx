@@ -1,6 +1,8 @@
 // src/components/Profile.jsx
 import React, { useEffect, useState } from "react";
 import { getUserProfile } from "../firebaseFunctions";
+import ChatStyles from "./ChatStyles";
+import "./ChatStyles.css";
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -10,6 +12,7 @@ const Profile = () => {
     lastLogin: "",
     lastChatId: "",
   });
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -29,13 +32,16 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="profile">
-      <h1>My Profile</h1>
-      <img src={user.photoURL} alt={user.displayName || "User"} />
-      <h2>{user.displayName || "Anonymous"}</h2>
-      <p>Email: {user.email || "No email provided"}</p>
-      <p>Last Logged In: {user.lastLogin || "Unknown"}</p>
-    </div>
+    <>
+      <div className="profile">
+        <h1>My Profile</h1>
+        <img src={user.photoURL} alt={user.displayName || "User"} />
+        <h2>{user.displayName || "Anonymous"}</h2>
+        <p>Email: {user.email || "No email provided"}</p>
+        <p>Last Logged In: {user.lastLogin || "Unknown"}</p>
+      </div>
+      <ChatStyles />
+    </>
   );
 };
 
