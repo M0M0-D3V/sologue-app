@@ -37,14 +37,12 @@ const ChatInterface = ({ chatId, setChatId, setChatTitle, viewHeight }) => {
     for (let i = len - 1; i >= 0; i--) {
       if (!messages[i].isOtherMe) {
         setName1(messages[i].sender);
-        console.log(`name1 set to: ${messages[i].sender}`);
         break;
       }
     }
     for (let i = len - 1; i >= 0; i--) {
       if (messages[i].isOtherMe) {
         setName2(messages[i].sender);
-        console.log(`name2 set to: ${messages[i].sender}`);
         break;
       }
     }
@@ -98,12 +96,6 @@ const ChatInterface = ({ chatId, setChatId, setChatTitle, viewHeight }) => {
       handleSendMessage();
     }
   };
-
-  // useEffect(() => {
-  //   // update dom for custom names
-  //   document.documentElement.style.setProperty("--name1", name1);
-  //   document.documentElement.style.setProperty("--name2", name2);
-  // }, [name1, name2]);
 
   const handleEdit = (message) => {
     setEditMessage(message.id);

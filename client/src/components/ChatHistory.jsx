@@ -43,7 +43,6 @@ const ChatHistory = ({ setChatId, chatTitle, setChatTitle }) => {
     // Functionality to edit chat title
     setEditChat(chat.id);
     setChatTitle(chat.title);
-    console.log("Edit chat with ID:", chat.id);
   };
 
   const handleUpdate = async (chatId) => {

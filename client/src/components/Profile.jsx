@@ -16,9 +16,7 @@ const Profile = () => {
         const profile = await getUserProfile();
         if (profile) {
           setUser(profile);
-          console.log("User profile fetched successfully:", profile);
         } else {
-          console.log("No user profile found.");
         }
       } catch (e) {
         console.error("Error fetching user profile:", e);

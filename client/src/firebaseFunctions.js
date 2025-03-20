@@ -34,13 +34,10 @@ export const checkAndCreateUserDocument = async () => {
         lastLogin: new Date().toISOString(),
       };
       await setDoc(userRef, userData);
-      console.log("User document created successfully");
     } else {
-      console.log("User document already exists");
       await updateDoc(userRef, {
         lastLogin: new Date().toISOString(),
       });
-      console.log("User document updated successfully");
     }
   } catch (e) {
     console.error("Error checking user document: ", e);
@@ -56,10 +53,8 @@ export const getUserDocument = async () => {
   try {
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
-      console.log("User document fetched successfully");
       return userDoc.data();
     } else {
-      console.log("User document does not exist.");
       return null;
     }
   } catch (e) {
@@ -115,10 +110,8 @@ export const getLastChatId = async () => {
     const user = auth.currentUser;
     const userData = await getUserDocument(user.uid);
     if (userData !== null) {
-      console.log("LastChatId Found");
       return userData.lastChatId;
     } else {
-      console.log("LastChatId does not exist.");
       return null;
     }
   } catch (e) {
@@ -132,7 +125,6 @@ export const updateLastChatId = async (chatId) => {
     const user = auth.currentUser;
     const userRef = doc(db, "users", user.uid);
     await updateDoc(userRef, { lastChatId: chatId });
-    console.log(`lastChatId updated to: ${chatId}`);
   } catch (e) {
     console.error("Error updating lastChatId:", e);
     throw e;
@@ -198,7 +190,6 @@ export const saveMessageToChat = async (chatId, message) => {
     const chatRef = doc(db, "chats", chatId);
     const messagesCollection = collection(chatRef, "messages");
     const encryptedMessage = { ...message, text: encrypt(message.text) };
-    // await addDoc(messagesCollection, message);
     await addDoc(messagesCollection, encryptedMessage);
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -252,7 +243,6 @@ export const getMessagesFromChat = async (chatId) => {
     querySnapshot.forEach((doc) => {
       const message = doc.data();
       const decryptedMessage = { ...message, text: decrypt(message.text) };
-      // messages.push({ id: doc.id, ...doc.data() });
       messages.push({ id: doc.id, ...decryptedMessage });
     });
     return messages;
@@ -274,7 +264,6 @@ export const getMessageById = async (chatId, messageId) => {
     const message = docSnap.data();
     const decryptedMessage = { ...message, text: decrypt(message.text) };
     return { id: docSnap.id, ...decryptedMessage };
-    // return { id: docSnap.id, ...docSnap.data() };
   } catch (e) {
     console.error("Error getting document: ", e);
     throw e;
@@ -305,7 +294,6 @@ export const updateMessageById = async (chatId, messageId, newMessage) => {
     const chatRef = doc(db, "chats", chatId);
     const messageRef = doc(chatRef, "messages", messageId);
     const encryptNewMessage = { ...newMessage, text: encrypt(newMessage.text) };
-    // await updateDoc(messageRef, newMessage);
     await updateDoc(messageRef, encryptNewMessage);
   } catch (e) {
     console.error("Error updating message: ", e);
